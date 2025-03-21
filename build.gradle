@@ -1,62 +1,73 @@
 plugins {
-    id 'java'
     id 'java-library'
+    id 'maven-publish'
 }
 
-version = '1.1.1'
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+group = 'com.justjournal'
+version = '1.2.0'
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation files('lib/javax.servlet.jar')
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    testImplementation 'junit:junit:4.13.2'
 }
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 
 sourceSets {
     main {
         java {
-            srcDirs = ['source']
+            srcDirs = ['src/main/java']
         }
         resources {
-            srcDirs = ['source']
-            include '**/*.properties'
+            srcDirs = ['src/main/resources']
         }
     }
 }
 
 jar {
-    archiveBaseName = 'xmlrpc'
-    archiveVersion = project.version
+    archiveBaseName = 'justjournal-xmlrpc'
+    manifest {
+        attributes(
+                'Implementation-Title': 'JustJournal XML-RPC Library',
+                'Implementation-Version': archiveVersion
+        )
+    }
 }
 
 task clientJar(type: Jar) {
-    archiveBaseName = 'xmlrpc-client'
+    archiveBaseName = 'justjournal-xmlrpc-client'
     archiveVersion = project.version
     from sourceSets.main.output
-    include 'redstone/xmlrpc/util/Base64.class'
-    include 'redstone/xmlrpc/XmlRpcValue.class'
-    include 'redstone/xmlrpc/XmlRpcArray.class'
-    include 'redstone/xmlrpc/XmlRpcStruct.class'
-    include 'redstone/xmlrpc/XmlRpcMessages.class'
-    include 'redstone/xmlrpc/XmlRpcClient*.class'
-    include 'redstone/xmlrpc/XmlRpcCallback*.class'
-    include 'redstone/xmlrpc/XmlRpcProxy.class'
-    include 'redstone/xmlrpc/XmlRpcException.class'
-    include 'redstone/xmlrpc/XmlRpcFault.class'
-    include 'redstone/xmlrpc/XmlRpcParser.class'
-    include 'redstone/xmlrpc/XmlRpcSerializer.class'
-    include 'redstone/xmlrpc/XmlRpcCustomSerializer.class'
-    include 'redstone/xmlrpc/XmlRpcInvocationHandler.class'
-    include 'redstone/xmlrpc/serializers/*.class'
+    include 'com/justjournal/xmlrpc/util/Base64.class'
+    include 'com/justjournal/xmlrpc/XmlRpcValue.class'
+    include 'com/justjournal/xmlrpc/XmlRpcArray.class'
+    include 'com/justjournal/xmlrpc/XmlRpcStruct.class'
+    include 'com/justjournal/xmlrpc/XmlRpcMessages.class'
+    include 'com/justjournal/xmlrpc/XmlRpcClient*.class'
+    include 'com/justjournal/xmlrpc/XmlRpcCallback*.class'
+    include 'com/justjournal/xmlrpc/XmlRpcProxy.class'
+    include 'com/justjournal/xmlrpc/XmlRpcException.class'
+    include 'com/justjournal/xmlrpc/XmlRpcFault.class'
+    include 'com/justjournal/xmlrpc/XmlRpcParser.class'
+    include 'com/justjournal/xmlrpc/XmlRpcSerializer.class'
+    include 'com/justjournal/xmlrpc/XmlRpcCustomSerializer.class'
+    include 'com/justjournal/xmlrpc/XmlRpcInvocationHandler.class'
+    include 'com/justjournal/xmlrpc/serializers/*.class'
     include '**/*.properties'
 }
 
 javadoc {
-    source = sourceSets.main.allJava
-    classpath = configurations.compileClasspath
     options.author = true
     options.version = true
     options.use = true
@@ -64,24 +75,19 @@ javadoc {
     options.tags = [ "todo:a:To do:" ]
 }
 
-task distributionZip(type: Zip) {
-    archiveBaseName = 'redstone-xmlrpc'
-    archiveVersion = project.version
-    from jar
-    from clientJar
-    from('source') {
-        include 'ajax.js'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact clientJar
+        }
     }
 }
 
-task sourceZip(type: Zip) {
-    archiveBaseName = 'redstone-xmlrpc-src'
-    archiveVersion = project.version
-    from 'source'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
-build.dependsOn jar, clientJar, javadoc, distributionZip, sourceZip
-
-clean {
-    delete 'build'
+test {
+    useJUnit()
 }
