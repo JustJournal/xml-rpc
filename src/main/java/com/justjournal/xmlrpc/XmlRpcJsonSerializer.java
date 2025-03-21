@@ -167,7 +167,7 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer
             }
 
             throw new XmlRpcException(
-                XmlRpcMessages.getString( "XmlRpcSerializer.UnsupportedType" ) + value.getClass() );
+                XmlRpcMessageBundle.getString( "XmlRpcSerializer.UnsupportedType" ) + value.getClass() );
         }
     }
     

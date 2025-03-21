@@ -1,7 +1,7 @@
 
 package com.justjournal.xmlrpc.util;
 
-import com.justjournal.xmlrpc.XmlRpcMessages;
+import com.justjournal.xmlrpc.XmlRpcMessageBundle;
 
 /**
  *  Provides encoding of raw bytes to base64-encoded characters, and
@@ -16,16 +16,13 @@ import com.justjournal.xmlrpc.XmlRpcMessages;
 
 public class Base64
 {
-    /**
-     *  Returns an array of base64-encoded characters to represent the
-     *  passed data array.
-     *
-     *  @param data the array of bytes to encode
-     *  @return base64-coded character array.
-     */
-
-    static public char[] encode( byte[] data )
-    {
+  /**
+   * Returns an array of base64-encoded characters to represent the passed data array.
+   *
+   * @param data the array of bytes to encode
+   * @return base64-coded character array.
+   */
+  public static char[] encode(byte[] data) {
         char[] out = new char[ ( ( data.length + 2 ) / 3 ) * 4 ];
 
         // 3 bytes encode to 4 chars.  Output is always an even
@@ -65,20 +62,14 @@ public class Base64
         return out;
     }
 
-
-    /**
-     *  Returns an array of bytes which were encoded in the passed
-     *  character array.
-     *
-     *  @param data the array of base64-encoded characters which can
-     *              contain whitespace, padding, and invalid characters
-     *              which are stripped from the input.
-     *              
-     *  @return decoded data array
-     */
-
-    static public byte[] decode( byte[] data )
-    {
+  /**
+   * Returns an array of bytes which were encoded in the passed character array.
+   *
+   * @param data the array of base64-encoded characters which can contain whitespace, padding, and
+   *     invalid characters which are stripped from the input.
+   * @return decoded data array
+   */
+  public static byte[] decode(byte[] data) {
         // Calculate actual length of the data, filtering away any
         // non-BASE64 characters.
         
@@ -139,19 +130,18 @@ public class Base64
 
         if ( index != out.length )
         {
-            throw new RuntimeException( XmlRpcMessages.getString( "Base64.InvalidDataLength" ) );
+            throw new RuntimeException( XmlRpcMessageBundle.getString( "Base64.InvalidDataLength" ) );
         }
 
         return out;
     }
 
+  /** Code characters for values 0..63 */
+  private static final char[] alphabet =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".toCharArray();
 
-    /** Code characters for values 0..63 */
-    static private char[] alphabet =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".toCharArray();
-
-    /** Lookup table for converting base64 characters to value in range 0..63 */
-    static private byte[] codes = new byte[256];
+  /** Lookup table for converting base64 characters to value in range 0..63 */
+  private static final byte[] codes = new byte[256];
 
     /** Initialize look-up table */
     static

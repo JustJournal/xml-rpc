@@ -54,11 +54,10 @@ public class BooleanArraySerializer implements XmlRpcCustomSerializer
 
         boolean[] array = ( boolean[] ) value;
 
-        for ( int i = 0; i < array.length; ++i )
-        {
-            writer.write( "<value><boolean>" );
-            writer.write( array[ i ] == true ? "1" : "0" );
-            writer.write( "</boolean></value>" );
+        for (boolean b : array) {
+            writer.write("<value><boolean>");
+            writer.write(b ? "1" : "0");
+            writer.write("</boolean></value>");
         }
 
         writer.write( "</data></array>" );

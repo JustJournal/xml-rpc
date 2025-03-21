@@ -54,11 +54,10 @@ public class DoubleArraySerializer implements XmlRpcCustomSerializer
 
         double[] array = ( double[] ) value;
 
-        for ( int i = 0; i < array.length; ++i )
-        {
-            writer.write( "<value><double>" );
-            writer.write( Double.toString( array[ i ] ) );
-            writer.write( "</double></value>" );
+        for (double v : array) {
+            writer.write("<value><double>");
+            writer.write(Double.toString(v));
+            writer.write("</double></value>");
         }
 
         writer.write( "</data></array>" );

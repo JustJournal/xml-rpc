@@ -24,7 +24,7 @@ import com.justjournal.xmlrpc.XmlRpcSerializer;
 
 /**
  *  Serializes arrays of objects into JSON arrays. For each value in the array
- *  it recursively calls the built in XmlRpcSerializer, which potentially ends up back
+ *  it recursively calls the built-in XmlRpcSerializer, which potentially ends up back
  *  in this class if a value in the array is another object array.
  *
  *  @author Greger Olsson

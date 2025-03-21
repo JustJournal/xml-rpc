@@ -5,8 +5,8 @@ plugins {
 
 group = 'com.justjournal'
 version = '1.2.0'
-sourceCompatibility = '1.11'
-targetCompatibility = '1.11'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -15,7 +15,8 @@ repositories {
 dependencies {
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 java {
@@ -33,6 +34,12 @@ sourceSets {
             srcDirs = ['src/main/resources']
         }
     }
+
+    test {
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
 }
 
 jar {
@@ -45,7 +52,7 @@ jar {
     }
 }
 
-task clientJar(type: Jar) {
+tasks.register('clientJar', Jar) {
     archiveBaseName = 'justjournal-xmlrpc-client'
     archiveVersion = project.version
     from sourceSets.main.output
@@ -84,10 +91,10 @@ publishing {
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 test {
-    useJUnit()
+    useJUnitPlatform()
 }

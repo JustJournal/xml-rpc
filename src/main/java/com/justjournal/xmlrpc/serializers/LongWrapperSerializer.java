@@ -44,7 +44,7 @@ public class LongWrapperSerializer implements XmlRpcCustomSerializer
 
 
     /**
-     *  Sets whether or not to use the &lt;i8> Apache extensions when
+     *  Sets whether to use the &lt;i8> Apache extensions when
      *  serializing longs.
      *
      *  @param useApacheExtension Flag for specifying the Apache extension to be used.
@@ -77,12 +77,12 @@ public class LongWrapperSerializer implements XmlRpcCustomSerializer
         else
         {
             writer.write( "<i8 xmlns=\"http://ws.apache.org/xmlrpc/namespaces/extensions\">" );
-            writer.write( Long.toString( longValue.longValue() ) );
+            writer.write( Long.toString(longValue) );
             writer.write( "</i8>" );
         }
     }
     
     
-    /** Flag indicating whether or not the Apache &lt;i8> extension should be used. */
+    /** Flag indicating whether the Apache &lt;i8> extension should be used. */
     private boolean useApacheExtension;
 }

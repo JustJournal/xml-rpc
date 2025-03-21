@@ -49,7 +49,6 @@ public class MapSerializer implements XmlRpcCustomSerializer
     /*  (Documentation inherited)
      *  @see redstone.xmlrpc.XmlRpcCustomSerializer#serialize(java.lang.Object, java.io.Writer, redstone.xmlrpc.XmlRpcSerializer)
      */
-    
     public void serialize(
         Object value,
         Writer writer,

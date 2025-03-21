@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  *  Handler for the XML-RPC validation suite. This suite is used to verify
- *  the implementation using the verification service at http://www.xmlrpc.com.
+ *  the implementation using the verification service at <a href="http://www.xmlrpc.com">...</a>.
  *
  *  @author Greger Olsson
  */
@@ -41,10 +41,9 @@ public class ValidationHandler extends ReflectiveInvocationHandler
     {
         int result = 0;
 
-        for ( int i = 0; i < structs.size(); ++i )
-        {
-            Map struct = ( Map ) structs.get( i );
-            result += ( ( Integer ) struct.get( "curly" ) ).intValue();
+        for (Object o : structs) {
+            Map struct = (Map) o;
+            result += (Integer) struct.get("curly");
         }
 
         return result;
@@ -57,7 +56,7 @@ public class ValidationHandler extends ReflectiveInvocationHandler
      *  ctRightAngleBrackets, ctAmpersands, ctApostrophes, ctQuotes. To validate, the numbers must be correct.
      */
 
-    public Map countTheEntities( String str )
+    public Map<String,Integer> countTheEntities( String str )
     {
         int ctLeftAngleBrackets  = 0;
         int ctRightAngleBrackets = 0;
@@ -74,16 +73,17 @@ public class ValidationHandler extends ReflectiveInvocationHandler
                 case '&':  ++ctAmpersands;         break;
                 case '\'': ++ctApostrophes;        break;
                 case '\"': ++ctQuotes;             break;
+                default:
             }
         }
 
-        Map/*<String,Integer>*/ result = new HashMap();
+        Map<String,Integer> result = new HashMap<>();
 
-        result.put( "ctLeftAngleBrackets", new Integer( ctLeftAngleBrackets ) );
-        result.put( "ctRightAngleBrackets", new Integer( ctRightAngleBrackets ) );
-        result.put( "ctAmpersands", new Integer( ctAmpersands ) );
-        result.put( "ctApostrophes", new Integer( ctApostrophes ) );
-        result.put( "ctQuotes", new Integer( ctQuotes ) );
+        result.put( "ctLeftAngleBrackets", ctLeftAngleBrackets);
+        result.put( "ctRightAngleBrackets", ctRightAngleBrackets);
+        result.put( "ctAmpersands", ctAmpersands);
+        result.put( "ctApostrophes", ctApostrophes);
+        result.put( "ctQuotes", ctQuotes);
 
         return result;
     }
@@ -191,7 +191,7 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 
     public Map simpleStructReturnTest( int number )
     {
-        Map/*<String,Integer>*/ result = new HashMap();
+        Map<String,Integer> result = new HashMap<>();
 
         result.put( "times10", new Integer( number * 10 ) );
         result.put( "times100", new Integer( number * 100 ) );

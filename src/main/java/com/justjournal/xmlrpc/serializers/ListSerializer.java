@@ -58,9 +58,8 @@ public class ListSerializer implements XmlRpcCustomSerializer
 
         List list = ( List ) value;
 
-        for ( int i = 0; i < list.size(); ++i )
-        {
-            builtInSerializer.serialize( list.get( i ), writer );
+        for (Object o : list) {
+            builtInSerializer.serialize(o, writer);
         }
 
         writer.write( "</data></array>" );

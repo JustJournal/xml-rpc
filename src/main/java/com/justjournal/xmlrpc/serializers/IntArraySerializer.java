@@ -54,11 +54,10 @@ public class IntArraySerializer implements XmlRpcCustomSerializer
 
         int[] array = ( int[] ) value;
 
-        for ( int i = 0; i < array.length; ++i )
-        {
-            writer.write( "<value><i4>" );
-            writer.write( Integer.toString( array[ i ] ) );
-            writer.write( "</i4></value>" );
+        for (int j : array) {
+            writer.write("<value><i4>");
+            writer.write(Integer.toString(j));
+            writer.write("</i4></value>");
         }
 
         writer.write( "</data></array>" );

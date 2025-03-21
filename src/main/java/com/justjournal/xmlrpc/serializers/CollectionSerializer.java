@@ -56,11 +56,8 @@ public class CollectionSerializer implements XmlRpcCustomSerializer
     {
         writer.write( "<array><data>" );
 
-        Iterator it = ( ( Collection ) value ).iterator();
-
-        while ( it.hasNext() )
-        {
-            builtInSerializer.serialize( it.next(), writer );
+        for (Object o : (Collection) value) {
+            builtInSerializer.serialize(o, writer);
         }
 
         writer.write( "</data></array>" );

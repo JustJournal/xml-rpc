@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import com.justjournal.xmlrpc.XmlRpcException;
 import com.justjournal.xmlrpc.XmlRpcInvocationHandler;
-import com.justjournal.xmlrpc.XmlRpcMessages;
+import com.justjournal.xmlrpc.XmlRpcMessageBundle;
 
 /**
  *  Note that methods that are to be called over XML-RPC need to be public, or the
@@ -228,7 +228,7 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
         // a method matching these classes, and one could not be found.
         
         StringBuffer error = new StringBuffer( 128 );
-        error.append( XmlRpcMessages.getString( "ReflectiveInvocationHandler.MethodDontExist" ) );
+        error.append( XmlRpcMessageBundle.getString( "ReflectiveInvocationHandler.MethodDontExist" ) );
 
         for ( int i = 0; i < argClasses.length; ++i )
         {
@@ -258,7 +258,7 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
         }
 
         throw new XmlRpcException(
-            XmlRpcMessages.getString( "ReflectiveInvocationHandler.MethodNotPublished" ) );
+            XmlRpcMessageBundle.getString( "ReflectiveInvocationHandler.MethodNotPublished" ) );
     }
 
 

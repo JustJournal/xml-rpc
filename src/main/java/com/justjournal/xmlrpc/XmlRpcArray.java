@@ -45,7 +45,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a String.
      */
 
@@ -60,13 +59,12 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Boolean.
      */
 
     public boolean getBoolean( int index )
     {
-        return ( ( Boolean ) get( index ) ).booleanValue();
+        return (Boolean) get(index);
     }
 
 
@@ -75,7 +73,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Boolean.
      */
 
@@ -90,13 +87,12 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not an Integer.
      */
 
     public int getInteger( int index )
     {
-        return ( ( Integer ) get( index ) ).intValue();
+        return (Integer) get(index);
     }
 
 
@@ -105,7 +101,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Integer.
      */
 
@@ -120,13 +115,12 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Double.
      */
 
     public double getDouble( int index )
     {
-        return ( ( Double ) get( index ) ).doubleValue();
+        return (Double) get(index);
     }
 
 
@@ -135,7 +129,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Double.
      */
 
@@ -150,7 +143,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not an Array.
      */
 
@@ -165,7 +157,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Struct.
      */
 
@@ -180,7 +171,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a Date.
      */
 

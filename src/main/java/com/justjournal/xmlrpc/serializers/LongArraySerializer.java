@@ -44,7 +44,7 @@ public class LongArraySerializer implements XmlRpcCustomSerializer
 
     
     /**
-     *  Sets whether or not to use the &lt;i8> Apache extensions when
+     *  Sets whether to use the &lt;i8> Apache extensions when
      *  serializing longs.
      *
      *  @param useApacheExtension Flag for specifying the Apache extension to be used.
@@ -70,19 +70,15 @@ public class LongArraySerializer implements XmlRpcCustomSerializer
 
         long[] array = ( long[] ) value;
 
-        for ( int i = 0; i < array.length; ++i )
-        {
-            if ( !useApacheExtension )
-            {
-                writer.write( "<value><i4>" );
-                writer.write( Integer.toString( ( int ) array[ i ] ) );
-                writer.write( "</i4></value>" );
-            }
-            else
-            {
-                writer.write( "<value><i8 xmlns=\"http://ws.apache.org/xmlrpc/namespaces/extensions\">" );
-                writer.write( Long.toString( array[ i ] ) );
-                writer.write( "</i8></value>" );
+        for (long l : array) {
+            if (!useApacheExtension) {
+                writer.write("<value><i4>");
+                writer.write(Integer.toString((int) l));
+                writer.write("</i4></value>");
+            } else {
+                writer.write("<value><i8 xmlns=\"http://ws.apache.org/xmlrpc/namespaces/extensions\">");
+                writer.write(Long.toString(l));
+                writer.write("</i8></value>");
             }
         }
 
@@ -90,6 +86,6 @@ public class LongArraySerializer implements XmlRpcCustomSerializer
     }
     
     
-    /** Flag indicating whether or not the Apache &lt;i8> extension should be used. */
+    /** Flag indicating whether the Apache &lt;i8> extension should be used. */
     private boolean useApacheExtension;
 }

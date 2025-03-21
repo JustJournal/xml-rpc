@@ -186,7 +186,7 @@ public class XmlRpcProxy implements InvocationHandler
             handlerName = objectName;
         }
 
-        if ( !handlerName.equals( "" ) )
+        if (!handlerName.isEmpty())
         {
             handlerName += ".";
         }

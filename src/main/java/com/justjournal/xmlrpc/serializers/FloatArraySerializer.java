@@ -54,11 +54,10 @@ public class FloatArraySerializer implements XmlRpcCustomSerializer
 
         float[] array = ( float[] ) value;
 
-        for ( int i = 0; i < array.length; ++i )
-        {
-            writer.write( "<value><double>" );
-            writer.write( Float.toString( array[ i ] ) );
-            writer.write( "</double></value>" );
+        for (float v : array) {
+            writer.write("<value><double>");
+            writer.write(Float.toString(v));
+            writer.write("</double></value>");
         }
 
         writer.write( "</data></array>" );

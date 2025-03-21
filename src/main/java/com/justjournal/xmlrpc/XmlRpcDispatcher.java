@@ -122,7 +122,7 @@ public class XmlRpcDispatcher extends XmlRpcParser
 
                 if ( !preProcess( invocation ) )
                 {
-                    writeError( -1, XmlRpcMessages.getString( "XmlRpcDispatcher.InvocationCancelled" ) );
+                    writeError( -1, XmlRpcMessageBundle.getString( "XmlRpcDispatcher.InvocationCancelled" ) );
                 }
                 else
                 {
@@ -153,7 +153,7 @@ public class XmlRpcDispatcher extends XmlRpcParser
         }
         else
         {
-            writeError( -1, XmlRpcMessages.getString( "XmlRpcDispatcher.HandlerNotFound" ) );
+            writeError( -1, XmlRpcMessageBundle.getString( "XmlRpcDispatcher.HandlerNotFound" ) );
         }
     }
 
@@ -313,7 +313,7 @@ public class XmlRpcDispatcher extends XmlRpcParser
             
             logger.log(
                 Level.SEVERE,
-                XmlRpcMessages.getString( "XmlRpcDispatcher.ErrorSendingFault" ),
+                XmlRpcMessageBundle.getString( "XmlRpcDispatcher.ErrorSendingFault" ),
                 ignore );
         }
     }

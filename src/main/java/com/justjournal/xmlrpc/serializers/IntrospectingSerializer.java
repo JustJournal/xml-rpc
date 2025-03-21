@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 import com.justjournal.xmlrpc.XmlRpcCustomSerializer;
 import com.justjournal.xmlrpc.XmlRpcException;
-import com.justjournal.xmlrpc.XmlRpcMessages;
+import com.justjournal.xmlrpc.XmlRpcMessageBundle;
 import com.justjournal.xmlrpc.XmlRpcSerializer;
 
 /**
@@ -62,25 +62,23 @@ public class IntrospectingSerializer implements XmlRpcCustomSerializer
         {
             BeanInfo beanInfo = Introspector.getBeanInfo( value.getClass(), java.lang.Object.class );
             PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-    
-            for ( int i = 0; i < descriptors.length; ++i )
-            {
-                Object propertyValue = descriptors[ i ].getReadMethod().invoke( value, ( Object[] ) null );
 
-                if ( propertyValue != null )
-                {
-                    writer.write( "<member><name>" );
-                    writer.write( descriptors[ i ].getDisplayName() );
-                    writer.write( "</name>" );
-        
-                    builtInSerializer.serialize( propertyValue, writer );
-                    writer.write( "</member>" );
+            for (PropertyDescriptor descriptor : descriptors) {
+                Object propertyValue = descriptor.getReadMethod().invoke(value, (Object[]) null);
+
+                if (propertyValue != null) {
+                    writer.write("<member><name>");
+                    writer.write(descriptor.getDisplayName());
+                    writer.write("</name>");
+
+                    builtInSerializer.serialize(propertyValue, writer);
+                    writer.write("</member>");
                 }
             }
         }
         catch( java.lang.Exception e )
         {
-            throw new XmlRpcException( XmlRpcMessages.getString( "IntrospectingSerializer.SerializationError" ), e );
+            throw new XmlRpcException( XmlRpcMessageBundle.getString( "IntrospectingSerializer.SerializationError" ), e );
         }
 
         writer.write( "</struct>" );

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 import com.justjournal.xmlrpc.XmlRpcCustomSerializer;
 import com.justjournal.xmlrpc.XmlRpcException;
-import com.justjournal.xmlrpc.XmlRpcMessages;
+import com.justjournal.xmlrpc.XmlRpcMessageBundle;
 import com.justjournal.xmlrpc.XmlRpcSerializer;
 
 /**
@@ -84,7 +84,7 @@ public class IntrospectingSerializer implements XmlRpcCustomSerializer
         }
         catch( java.lang.Exception e )
         {
-            throw new XmlRpcException( XmlRpcMessages.getString( "IntrospectingSerializer.SerializationError" ), e );
+            throw new XmlRpcException( XmlRpcMessageBundle.getString( "IntrospectingSerializer.SerializationError" ), e );
         }
 
         writer.write( "}" );

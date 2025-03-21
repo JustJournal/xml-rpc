@@ -31,9 +31,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  *  @author Greger Olsson
  */
-
 public class XmlRpcServlet extends HttpServlet
 {
+
+    /** The XmlRpcServer containing the handlers and processors. */
+    private XmlRpcServer server;
+
+    /** Indicates whether response messages should be streamed. */
+    private boolean streamMessages;
+
+    private String contentType;
+
+
     /**
      *  Initializes the servlet by instantiating the XmlRpcServer that will
      *  hold all invocation handlers and processors. The servlet configuration
@@ -70,7 +79,7 @@ public class XmlRpcServlet extends HttpServlet
             server = new XmlRpcServer();
         }
         
-        this.contentType += "; charset=" + XmlRpcMessages.getString( "XmlRpcServlet.Encoding" );
+        this.contentType += "; charset=" + XmlRpcMessageBundle.getString( "XmlRpcServlet.Encoding" );
         
         if ( services != null )
         {
@@ -122,7 +131,6 @@ public class XmlRpcServlet extends HttpServlet
      * 
      *  @param req
      *  @param res
-     *  @throws ServletException
      *  @throws IOException
      */
     
@@ -131,7 +139,7 @@ public class XmlRpcServlet extends HttpServlet
         HttpServletResponse res)
         throws ServletException, IOException
     {
-        res.setCharacterEncoding( XmlRpcMessages.getString( "XmlRpcServlet.Encoding" ) );
+        res.setCharacterEncoding( XmlRpcMessageBundle.getString( "XmlRpcServlet.Encoding" ) );
         res.setContentType( contentType );
 
         if ( streamMessages )
@@ -197,41 +205,29 @@ public class XmlRpcServlet extends HttpServlet
                 catch ( ClassNotFoundException e )
                 {
                     throw new ServletException(
-                        XmlRpcMessages.getString(
+                        XmlRpcMessageBundle.getString(
                             "XmlRpcServlet.ServiceClassNotFound" ) + className, e );
                 }
                 catch ( InstantiationException e )
                 {
                     throw new ServletException(
-                        XmlRpcMessages.getString(
+                        XmlRpcMessageBundle.getString(
                             "XmlRpcServlet.ServiceClassNotInstantiable" ) + className, e );
                 }
                 catch ( IllegalAccessException e )
                 {
                     throw new ServletException(
-                        XmlRpcMessages.getString(
+                        XmlRpcMessageBundle.getString(
                             "XmlRpcServlet.ServiceClassNotAccessible" ) + className, e );
                 }
             }
             else
             {
                 throw new ServletException(
-                    XmlRpcMessages.getString(
+                    XmlRpcMessageBundle.getString(
                         "XmlRpcServlet.InvalidServicesFormat" ) + services );
             }
         }
     }
-    
 
-    /** The XmlRpcServer containing the handlers and processors. */
-    private XmlRpcServer server;
-    
-    /** Indicates whether response messages should be streamed. */
-    private boolean streamMessages;
-
-    /** <describe> */
-    private String contentType;
-    
-    /** Serial Version UID. */
-    private static final long serialVersionUID = 3544388119488050993L;
 }

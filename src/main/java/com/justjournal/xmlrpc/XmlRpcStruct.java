@@ -24,7 +24,7 @@ import java.util.HashMap;
 /**
  *  <p>A Struct represents an XML-RPC struct in its Java form. Essentially,
  *  it's just a plain java.util.HashMap with utility methods for extracting
- *  members of any of the data types supported by the XML-RPC library.
+ *  members of the data types supported by the XML-RPC library.
  *  The class does not introduce any new field members which makes it
  *  no more expensive than a regular HashMap.</p>
  *

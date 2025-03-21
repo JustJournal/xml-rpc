@@ -157,7 +157,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
                 catch ( IOException ioe )
                 {
                     throw new XmlRpcException(
-                        XmlRpcMessages.getString( "XmlRpcClient.NetworkError" ), ioe );
+                        XmlRpcMessageBundle.getString( "XmlRpcClient.NetworkError" ), ioe );
                 }
             }
         }
@@ -201,7 +201,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
                 catch ( IOException ioe )
                 {
                     throw new XmlRpcException(
-                        XmlRpcMessages.getString( "XmlRpcClient.NetworkError" ), ioe );
+                        XmlRpcMessageBundle.getString( "XmlRpcClient.NetworkError" ), ioe );
                 }
             }
         }
@@ -317,7 +317,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
                 writer = new BufferedWriter(
                     new OutputStreamWriter(
                         connection.getOutputStream(),
-                        XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) ) );
+                        XmlRpcMessageBundle.getString( "XmlRpcClient.Encoding" ) ) );
             }
             else
             {
@@ -325,7 +325,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
             }
             
             writer.write( "<?xml version=\"1.0\" encoding=\"" );
-            writer.write( XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) );
+            writer.write( XmlRpcMessageBundle.getString( "XmlRpcClient.Encoding" ) );
             writer.write( "\"?>" );
             writer.write( "<methodCall><methodName>" );
             writer.write( methodName );
@@ -334,7 +334,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         catch( IOException ioe )
         {
             throw new XmlRpcException(
-                XmlRpcMessages.getString( "XmlRpcClient.NetworkError" ), ioe );
+                XmlRpcMessageBundle.getString( "XmlRpcClient.NetworkError" ), ioe );
         }
     }
 
@@ -368,7 +368,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
                 connection.setRequestProperty( "Content-Length", String.valueOf( buffer.length() ) );
 
                 OutputStream output = new BufferedOutputStream( connection.getOutputStream() );
-                output.write( buffer.toString().getBytes( XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) ) );
+                output.write( buffer.toString().getBytes( XmlRpcMessageBundle.getString( "XmlRpcClient.Encoding" ) ) );
                 output.flush();
                 output.close();
             }
@@ -378,7 +378,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         catch ( IOException ioe )
         {
             throw new XmlRpcException(
-                XmlRpcMessages.getString( "XmlRpcClient.NetworkError" ),
+                XmlRpcMessageBundle.getString( "XmlRpcClient.NetworkError" ),
                     ioe );
         }
         finally
@@ -432,7 +432,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         catch ( Exception e )
         {
             throw new XmlRpcException(
-                XmlRpcMessages.getString( "XmlRpcClient.ParseError" ), e );
+                XmlRpcMessageBundle.getString( "XmlRpcClient.ParseError" ), e );
         }
         
         if ( isFaultResponse )
@@ -504,7 +504,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         connection.setRequestMethod( "POST" );
         connection.setRequestProperty(
             "Content-Type", "text/xml; charset=" +
-            XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) );
+            XmlRpcMessageBundle.getString( "XmlRpcClient.Encoding" ) );
         
         if ( requestProperties != null )
         {

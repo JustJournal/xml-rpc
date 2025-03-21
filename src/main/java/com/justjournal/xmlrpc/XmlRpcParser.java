@@ -125,7 +125,7 @@ public abstract class XmlRpcParser extends DefaultHandler
                 catch ( SAXException e )
                 {
                     throw new XmlRpcException(
-                        XmlRpcMessages.getString( "XmlRpcParser.ReaderInstantiationError" ), e );
+                        XmlRpcMessageBundle.getString( "XmlRpcParser.ReaderInstantiationError" ), e );
                 }
             }
             else
@@ -145,7 +145,7 @@ public abstract class XmlRpcParser extends DefaultHandler
             catch ( Exception e )
             {
                 throw new XmlRpcException(
-                    XmlRpcMessages.getString( "XmlRpcParser.ParsingError" ), e );                        
+                    XmlRpcMessageBundle.getString( "XmlRpcParser.ParsingError" ), e );
             }
         }
         finally
