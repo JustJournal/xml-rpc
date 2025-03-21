@@ -6,6 +6,7 @@ Progress:
 1. switched to Gradle
 2. fixed some documentation
 3. removal of some legacy unboxing/patterns
+4. changed packages, but should be mostly drop in
 
 The current version is still targeting the older javax.servlet namespace. The plan is to do a release and then work on upgrading to the Jakarta era.
 
