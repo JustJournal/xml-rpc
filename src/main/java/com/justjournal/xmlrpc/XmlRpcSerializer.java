@@ -77,15 +77,17 @@ public class XmlRpcSerializer
             customSerializers.add( new IntrospectingSerializer() );
         }
     }
-    
-    
-    /**
-     *  <describe>
-     * 
-     *  @param writer
-     *  @throws IOException
-     */
 
+
+    /**
+     * Writes the XML-RPC envelope header to the specified writer.
+     * This method generates the opening tags for an XML-RPC response,
+     * including the XML declaration and the start of the methodResponse element.
+     *
+     * @param value The object to be serialized (not used in this method, but may be used in overridden versions)
+     * @param writer The Writer object to which the XML-RPC envelope header will be written
+     * @throws IOException If an I/O error occurs while writing to the writer
+     */
     public void writeEnvelopeHeader( Object value, Writer writer ) throws IOException
     {
         writer.write( "<?xml version=\"1.0\" encoding=\"" );
@@ -95,13 +97,15 @@ public class XmlRpcSerializer
 
 
     /**
-     *  <describe>
-     * 
-     *  @param value
-     *  @param writer
-     * @throws IOException 
+     * Writes the XML-RPC envelope footer to the specified writer.
+     * This method generates the closing tags for an XML-RPC response,
+     * including the end of the param, params, and methodResponse elements.
+     * If the value is null, it also includes a "void" string value.
+     *
+     * @param value The object that was serialized (can be null)
+     * @param writer The Writer object to which the XML-RPC envelope footer will be written
+     * @throws IOException If an I/O error occurs while writing to the writer
      */
-
     public void writeEnvelopeFooter( Object value, Writer writer ) throws IOException
     {
         if ( value != null )
@@ -114,17 +118,17 @@ public class XmlRpcSerializer
                           "</param></params></methodResponse>" );
         }
     }
-    
-    
-    /**
-     *  <describe>
-     * 
-     *  @param code
-     *  @param message
-     *  @param writer
-     * @throws IOException 
-     */
 
+
+    /**
+     * Writes an XML-RPC error response to the specified writer.
+     * This method generates an XML-RPC fault response, including the fault code and fault string.
+     *
+     * @param code The fault code to be included in the error response
+     * @param message The fault string (error message) to be included in the error response
+     * @param writer The Writer object to which the XML-RPC error response will be written
+     * @throws IOException If an I/O error occurs while writing to the writer
+     */
     public void writeError( int code, String message, Writer writer ) throws IOException
     {
         writer.write( "<?xml version=\"1.0\" encoding=\"" );
@@ -144,7 +148,6 @@ public class XmlRpcSerializer
      *  Converts the supplied Java object to its XML-RPC counterpart according to
      *  the XML-RPC specification.
      */
-
     public void serialize(
         Object value,
         Writer writer )
@@ -198,7 +201,7 @@ public class XmlRpcSerializer
         else if ( value instanceof Boolean )
         {
             writer.write( "<boolean>" );
-            writer.write( ( ( Boolean ) value ).booleanValue() == true ? "1" : "0" );
+            writer.write( (Boolean) value == true ? "1" : "0" );
             writer.write( "</boolean>" );
         }
         else if ( value instanceof java.util.Calendar )
@@ -234,14 +237,12 @@ public class XmlRpcSerializer
             // Value was not of basic type, see if there's a custom serializer
             // registered for it.
 
-            for ( int i = 0; i < customSerializers.size(); ++i )
-            {
-                XmlRpcCustomSerializer serializer = ( XmlRpcCustomSerializer ) customSerializers.get( i );
-                
-                if ( serializer.getSupportedClass().isInstance( value ) )
-                {
-                    serializer.serialize( value, writer, this );
-                    writer.write( "</value>" );
+            for (Object customSerializer : customSerializers) {
+                XmlRpcCustomSerializer serializer = (XmlRpcCustomSerializer) customSerializer;
+
+                if (serializer.getSupportedClass().isInstance(value)) {
+                    serializer.serialize(value, writer, this);
+                    writer.write("</value>");
                     return;
                 }
             }
@@ -255,16 +256,16 @@ public class XmlRpcSerializer
 
 
     /**
-     *  Registers a custom serializer. The serializer is placed the list of serializers
-     *  before more general serializers from the same inheritance tree. That is, adding
-     *  a serializer supporting serialization of java.util.Vector will be placed before
-     *  a serializer for java.util.Collection. In other words, when serializing an
-     *  object of type Vector, the java.util.Vector serializer will override a
-     *  more general java.util.Collection serializer.
+     * Registers a custom serializer in the list of serializers.
+     * <p>
+     * The serializer is placed in the list before more general serializers from the same inheritance tree.
+     * For example, adding a serializer supporting serialization of java.util.Vector will be placed before
+     * a serializer for java.util.Collection. This ensures that when serializing an object of type Vector,
+     * the java.util.Vector serializer will override a more general java.util.Collection serializer.
      *
-     *  @value customSerializer The serializer to extend the original serializer with.
+     * @param customSerializer The custom serializer to be added to the list of serializers.
+     *                         This serializer extends the functionality of the original serializer.
      */
-
     public void addCustomSerializer(
         XmlRpcCustomSerializer customSerializer )
     {
@@ -272,7 +273,7 @@ public class XmlRpcSerializer
 
         for ( int i = 0; i < customSerializers.size(); ++i )
         {
-            XmlRpcCustomSerializer customSerializerEntry = ( XmlRpcCustomSerializer ) customSerializers.get( i );
+      XmlRpcCustomSerializer customSerializerEntry = customSerializers.get(i);
 
             // Does the supplied serializer support a subclass or sub-interface of
             // the serializer at the current element. If so, the supplied serializer
@@ -293,11 +294,14 @@ public class XmlRpcSerializer
 
 
     /**
-     *  Unregisters a previously registered custom serializer.
+     * Unregisters a previously registered custom serializer.
+     * This method removes the specified custom serializer from the list of registered serializers.
+     * If the serializer is not found in the list, this method has no effect.
      *
-     *  @value customSerializer The serializer to unregister.
+     * @param customSerializer The custom serializer to be unregistered and removed from the list.
+     *                         This should be an instance of XmlRpcCustomSerializer that was previously
+     *                         added using the addCustomSerializer method.
      */
-
     public void removeCustomSerializer(
         XmlRpcCustomSerializer customSerializer )
     {
@@ -306,7 +310,7 @@ public class XmlRpcSerializer
 
 
     /** The list of currently registered custom serializers */
-    protected List/*<XmlRpcCustomSerializer>*/ customSerializers = new ArrayList();
+    protected List<XmlRpcCustomSerializer> customSerializers = new ArrayList<>();
     
     /** Date formatter shared by all XmlRpcValues */
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyyMMdd'T'HH:mm:ss" );

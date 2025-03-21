@@ -199,10 +199,16 @@ public class XmlRpcProxy implements InvocationHandler
 
 
     /**
-     *  Creates a new XmlRpcProxy which is a dynamic proxy invocation handler with
-     *  an encapsulated XmlRpcClient. Not for pubilc usage -- use createProxy()
+     * Creates a new XmlRpcProxy which is a dynamic proxy invocation handler with
+     * an encapsulated XmlRpcClient. This constructor is protected and not intended
+     * for public usage -- use createProxy() instead.
+     *
+     * @param url The URL of the XML-RPC server that will receive calls through the proxy.
+     * @param objectName The name of the handler that will handle the converted dynamic calls.
+     *                   If null, the handler name will be derived from the interface name.
+     * @param streamMessages A boolean flag indicating whether to stream messages or not.
+     *                       If true, the XML-RPC client will stream messages to the server.
      */
-
     protected XmlRpcProxy(
         URL url,
         String objectName,

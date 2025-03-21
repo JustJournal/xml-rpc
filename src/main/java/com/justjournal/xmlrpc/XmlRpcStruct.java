@@ -37,8 +37,7 @@ import java.util.HashMap;
  *  
  *  @author Greger Olsson
  */
-
-public class XmlRpcStruct extends HashMap/*<String,Object>*/
+public class XmlRpcStruct extends HashMap<String,Object>
 {
     /**
      *  Returns the String with the given key from the Struct.
@@ -65,7 +64,7 @@ public class XmlRpcStruct extends HashMap/*<String,Object>*/
 
     public boolean getBoolean( Object key )
     {
-        return ( ( Boolean ) get( key ) ).booleanValue();
+        return (Boolean) get(key);
     }
 
 
@@ -94,7 +93,7 @@ public class XmlRpcStruct extends HashMap/*<String,Object>*/
 
     public int getInteger( Object key )
     {
-        return ( ( Integer ) get( key ) ).intValue();
+        return (Integer) get(key);
     }
 
 
@@ -123,7 +122,7 @@ public class XmlRpcStruct extends HashMap/*<String,Object>*/
 
     public double getDouble( Object key )
     {
-        return ( ( Double ) get( key ) ).doubleValue();
+        return (Double) get(key);
     }
 
 
@@ -171,13 +170,20 @@ public class XmlRpcStruct extends HashMap/*<String,Object>*/
 
 
     /**
-     *  Returns the Date with the given key from the Struct.
+     * Retrieves a Date object associated with the specified key from the Struct.
      *
-     *  @param key The key of the value to extract.
+     * This method attempts to fetch a Date value from the Struct using the provided key.
+     * It performs a direct cast of the retrieved object to Date, which may throw a
+     * ClassCastException if the value is not actually a Date object.
      *
-     *  @throws ClassCastException if the value with the given key is not a Date.
+     * @param key The key associated with the Date value to be retrieved from the Struct.
+     *            This can be any Object, but is typically a String.
+     *
+     * @return The Date object associated with the specified key.
+     *
+     * @throws ClassCastException if the value associated with the given key is not a Date object.
+     * @throws NullPointerException if the Struct does not contain a mapping for the key.
      */
-
     public Date getDate( Object key )
     {
         return ( Date ) get( key );

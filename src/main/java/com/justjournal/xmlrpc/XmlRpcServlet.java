@@ -124,16 +124,22 @@ public class XmlRpcServlet extends HttpServlet
     {
         return contentType;
     }
-    
-    
+
+
     /**
-     *  Handles reception of XML-RPC messages.
-     * 
-     *  @param req
-     *  @param res
-     *  @throws IOException
+     * Handles reception and processing of XML-RPC messages via HTTP POST requests.
+     * This method sets the appropriate character encoding and content type for the response,
+     * then executes the XML-RPC request using the server instance.
+     *
+     * If streamMessages is true, the response is written directly to the output stream.
+     * Otherwise, the response is buffered before being sent, allowing for the Content-Length
+     * header to be set (which is compliant with the XML-RPC specification).
+     *
+     * @param req The HttpServletRequest object containing the XML-RPC request data
+     * @param res The HttpServletResponse object used to send the XML-RPC response
+     * @throws ServletException If there's an error in servlet execution
+     * @throws IOException If there's an error in input/output operations
      */
-    
     public void doPost(
         HttpServletRequest req,
         HttpServletResponse res)

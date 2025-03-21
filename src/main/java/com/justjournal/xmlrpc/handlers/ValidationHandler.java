@@ -33,7 +33,7 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 {
     /**
      *  This handler takes a single parameter, an array of structs, each of which contains at least three elements
-     *  named moe, larry and curly, all <i4>s. Your handler must add all the struct elements named curly and
+     *  named moe, larry and curly, all &lt;i4&gt;s. Your handler must add all the struct elements named curly and
      *  return the result.
      */
 
@@ -51,8 +51,8 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 
 
     /**
-     *  This handler takes a single parameter, a string, that contains any number of predefined entities, namely <,
-     *  >, &, ' and ". Your handler must return a struct that contains five fields, all numbers: ctLeftAngleBrackets,
+     *  This handler takes a single parameter, a string, that contains any number of predefined entities, namely &lt;,
+     *  &gt;, &amp;, ' and &quot;. Your handler must return a struct that contains five fields, all numbers: ctLeftAngleBrackets,
      *  ctRightAngleBrackets, ctAmpersands, ctApostrophes, ctQuotes. To validate, the numbers must be correct.
      */
 
@@ -91,7 +91,9 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 
     /**
      *  This handler takes a single parameter, a struct, containing at least three elements named moe, larry and
-     *  curly, all <i4>s. Your handler must add the three numbers and return the result.
+     *  curly, all &lt;i4&gt;s. Your handler must add the three numbers and return the result.
+     *
+     * @param struct The struct containing the numbers
      */
 
     public int easyStructTest( Map struct )
@@ -108,6 +110,7 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 
     /**
      *  This handler takes a single parameter, a struct. Your handler must return the struct.
+     * @param struct The struct to echo
      */
 
     public Map echoStructTest( Map struct )
@@ -118,8 +121,14 @@ public class ValidationHandler extends ReflectiveInvocationHandler
 
     /**
      *  This handler takes six parameters, and returns an array containing all the parameters.
+     * @param number The first parameter
+     * @param bool The second parameter
+     * @param string The third parameter
+     * @param dbl The fourth parameter
+     * @param dateTime The fifth parameter
+     * @param bytes The sixth parameter
+     * @return An array containing all the parameters
      */
-
     public List manyTypesTest(
         int number,
         boolean bool,
@@ -145,8 +154,10 @@ public class ValidationHandler extends ReflectiveInvocationHandler
      *  This handler takes a single parameter, which is an array containing between 100 and 200 elements. Each
      *  of the items is a string, your handler must return a string containing the concatenated text of the first and
      *  last elements.
+     *
+     * @param strings The array containing the strings
+     * @return A string containing the concatenated text of the first and last elements
      */
-
     public String moderateSizeArrayCheck( List strings )
     {
         return  ( ( String ) strings.get( 0 ) ) +
@@ -158,9 +169,11 @@ public class ValidationHandler extends ReflectiveInvocationHandler
      *  This handler takes a single parameter, a struct, that models a daily calendar. At the top level, there is one
      *  struct for each year. Each year is broken down into months, and months into days. Most of the days are
      *  empty in the struct you receive, but the entry for April 1, 2000 contains a least three elements named
-     *  moe, larry and curly, all <i4>s. Your handler must add the three numbers and return the result.
+     *  moe, larry and curly, all &lt;i4&gt;s. Your handler must add the three numbers and return the result.
+     *
+     * @param struct The struct containing the daily calendar
+     * @return The result of adding the three numbers in April 1, 2000
      */
-
     public int nestedStructTest( Map struct )
     {
         int result = 0;
@@ -187,8 +200,9 @@ public class ValidationHandler extends ReflectiveInvocationHandler
     /**
      *  This handler takes one parameter, and returns a struct containing three elements, times10, times100 and
      *  times1000, the result of multiplying the number by 10, 100 and 1000.
+     * @param number The number to multiply
+     * @return A struct containing the multiplication results 10, 100 and 1000 times the input number
      */
-
     public Map simpleStructReturnTest( int number )
     {
         Map<String,Integer> result = new HashMap<>();

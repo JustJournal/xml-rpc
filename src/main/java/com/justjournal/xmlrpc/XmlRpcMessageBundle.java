@@ -30,6 +30,14 @@ public class XmlRpcMessageBundle {
     private XmlRpcMessageBundle() {
     }
 
+    /**
+     * Retrieves a localized string from the resource bundle using the provided key.
+     * If the resource bundle is not available or the key is not found, it returns
+     * the key enclosed in exclamation marks.
+     *
+     * @param key The key to look up in the resource bundle.
+     * @return The localized string if found, otherwise '!key!'.
+     */
     public static String getString(String key) {
         if (RESOURCE_BUNDLE == null) {
             return '!' + key + '!';

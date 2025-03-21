@@ -24,12 +24,12 @@ import java.util.Date;
 /**
  *  <p>An Array represents an XML-RPC array in its Java form. Essentially,
  *  it's just a java.util.ArrayList with utility methods for extracting
- *  members of any of the data types supported by the XML-RPC library.
+ *  members of the data types supported by the XML-RPC library.
  *  The class does not introduce any new field members which makes it
  *  no more expensive than a regular ArrayList.</p>
  *
  *  <p>To extract nested values from the list, use the new simplified
- *  accessors which perform the casting for you:<p>
+ *  accessors which perform the casting for you:
  *
  *  <pre>
  *  boolean boolean = myList.getStruct( 0 ).getBoolean( "someBoolean" );
@@ -37,8 +37,7 @@ import java.util.Date;
  *  
  *  @author Greger Olsson
  */
-
-public class XmlRpcArray extends ArrayList
+public class XmlRpcArray extends ArrayList<Object>
 {
     /**
      *  Returns the String at the given index in the array.
@@ -185,7 +184,6 @@ public class XmlRpcArray extends ArrayList
      *
      *  @param index The index into the array to extract the value from.
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
      *  @throws ClassCastException if the value at the given index is not a byte[].
      */
 
@@ -196,15 +194,19 @@ public class XmlRpcArray extends ArrayList
 
 
     /**
-     *  Returns the byte[] with at the given index in the Array, as an
-     *  input stream (currently, a java.io.ByteArrayInputStream).
+     * Retrieves the byte array at the specified index in the XmlRpcArray as an InputStream.
      *
-     *  @param index The index of the value to extract.
+     * <p>This method converts the byte array stored at the given index into a ByteArrayInputStream,
+     * allowing for convenient streaming access to the binary data.</p>
      *
-     *  @throws ArrayOutOfBoundsException if index > size() - 1.
-     *  @throws ClassCastException if the value at the given index is not a byte[].
+     * @param index The index of the byte array in the XmlRpcArray to be converted to an InputStream.
+     *              The index is zero-based.
+     * @return An InputStream (specifically, a ByteArrayInputStream) containing the binary data
+     *         stored at the specified index.
+     * @throws ClassCastException if the value at the given index is not a byte array.
+     * @throws IndexOutOfBoundsException if the index is out of range
+     *         (index &lt; 0 || index &gt;= size()).
      */
-
     public InputStream getBinaryAsStream( int index )
     {
         return new ByteArrayInputStream( ( byte[] ) get( index ) );
