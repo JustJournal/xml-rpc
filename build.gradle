@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+version = '1.1.1'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation files('lib/javax.servlet.jar')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['source']
+        }
+        resources {
+            srcDirs = ['source']
+            include '**/*.properties'
+        }
+    }
+}
+
+jar {
+    archiveBaseName = 'xmlrpc'
+    archiveVersion = project.version
+}
+
+task clientJar(type: Jar) {
+    archiveBaseName = 'xmlrpc-client'
+    archiveVersion = project.version
+    from sourceSets.main.output
+    include 'redstone/xmlrpc/util/Base64.class'
+    include 'redstone/xmlrpc/XmlRpcValue.class'
+    include 'redstone/xmlrpc/XmlRpcArray.class'
+    include 'redstone/xmlrpc/XmlRpcStruct.class'
+    include 'redstone/xmlrpc/XmlRpcMessages.class'
+    include 'redstone/xmlrpc/XmlRpcClient*.class'
+    include 'redstone/xmlrpc/XmlRpcCallback*.class'
+    include 'redstone/xmlrpc/XmlRpcProxy.class'
+    include 'redstone/xmlrpc/XmlRpcException.class'
+    include 'redstone/xmlrpc/XmlRpcFault.class'
+    include 'redstone/xmlrpc/XmlRpcParser.class'
+    include 'redstone/xmlrpc/XmlRpcSerializer.class'
+    include 'redstone/xmlrpc/XmlRpcCustomSerializer.class'
+    include 'redstone/xmlrpc/XmlRpcInvocationHandler.class'
+    include 'redstone/xmlrpc/serializers/*.class'
+    include '**/*.properties'
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
+    options.author = true
+    options.version = true
+    options.use = true
+    options.breakIterator = true
+    options.tags = [ "todo:a:To do:" ]
+}
+
+task distributionZip(type: Zip) {
+    archiveBaseName = 'redstone-xmlrpc'
+    archiveVersion = project.version
+    from jar
+    from clientJar
+    from('source') {
+        include 'ajax.js'
+    }
+}
+
+task sourceZip(type: Zip) {
+    archiveBaseName = 'redstone-xmlrpc-src'
+    archiveVersion = project.version
+    from 'source'
+}
+
+build.dependsOn jar, clientJar, javadoc, distributionZip, sourceZip
+
+clean {
+    delete 'build'
+}
