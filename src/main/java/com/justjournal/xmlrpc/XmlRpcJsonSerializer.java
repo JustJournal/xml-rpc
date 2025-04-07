@@ -70,11 +70,13 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer {
   }
 
   /** Overrides the default serializing mechanism to use JSON format instead. */
+  @Override
   public void writeEnvelopeHeader(Object value, Writer writer) throws IOException {
     writer.write('(');
   }
 
   /** Overrides the default serializing mechanism to use JSON format instead. */
+  @Override
   public void writeEnvelopeFooter(Object value, Writer writer) throws IOException {
     writer.write(')');
   }

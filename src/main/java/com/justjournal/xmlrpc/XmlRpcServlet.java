@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.StringTokenizer;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *  Servlet that publishes an XmlRpcServer in a web server.
@@ -35,7 +35,7 @@ public class XmlRpcServlet extends HttpServlet
 {
 
     /** The XmlRpcServer containing the handlers and processors. */
-    private XmlRpcServer server;
+    private transient XmlRpcServer server;
 
     /** Indicates whether response messages should be streamed. */
     private boolean streamMessages;
@@ -56,19 +56,19 @@ public class XmlRpcServlet extends HttpServlet
      *  to this is to create a new servlet class extending from XmlRpcServlet
      *  that publishes services programmatically.
      */
-
+    @Override
     public void init( ServletConfig config ) throws ServletException
     {
         String services = config.getInitParameter( "services" );
-        String contentType = config.getInitParameter( "contentType" );
-        String streamMessages = config.getInitParameter( "streamMessages" );
+        String contentTypeConfig = config.getInitParameter( "contentType" );
+        String streamMessagesConfig = config.getInitParameter( "streamMessages" );
 
-        if ( streamMessages != null && streamMessages.equals( "1" ) )
+        if ( streamMessagesConfig != null && streamMessagesConfig.equals( "1" ) )
         {
             this.streamMessages = true;
         }
         
-        if ( contentType != null && contentType.startsWith( "text/javascript+json" ) )
+        if ( contentTypeConfig != null && contentTypeConfig.startsWith( "text/javascript+json" ) )
         {
             this.contentType = "text/javascript+json";
             server = new XmlRpcServer( new XmlRpcJsonSerializer() );
@@ -140,6 +140,7 @@ public class XmlRpcServlet extends HttpServlet
      * @throws ServletException If there's an error in servlet execution
      * @throws IOException If there's an error in input/output operations
      */
+    @Override
     public void doPost(
         HttpServletRequest req,
         HttpServletResponse res)

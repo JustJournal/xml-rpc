@@ -16,13 +16,12 @@
 
 package com.justjournal.xmlrpc;
 
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import com.justjournal.xmlrpc.util.Base64;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * An XmlRpcValue wraps a value object that is initialized with data supplied from the XmlRpcParser
@@ -33,6 +32,7 @@ import com.justjournal.xmlrpc.util.Base64;
  *
  * @author Greger Olsson
  */
+@Slf4j
 public class XmlRpcValue {
 
   private static final DateTimeFormatter DATE_FORMATTER =
@@ -123,13 +123,16 @@ public class XmlRpcValue {
       case XmlRpcParser.STRUCT:
         memberName = charData;
         break;
+      default:
+        log.error("Unexpected type: " + type);
+        break;
     }
   }
 
   /**
    * Adds a child value to this value, if it is of composite type (array or struct).
    *
-   * @param value The nested valued of this value.
+   * @param childValue The nested valued of this value.
    */
   void addChildValue(XmlRpcValue childValue) {
     if (type == XmlRpcParser.ARRAY) {

@@ -94,7 +94,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
    *     this XmlRpcClient instance. These will replace any previous properties set using this
    *     method or the setRequestProperty() method.
    */
-  public void setRequestProperties(Map requestProperties) {
+  public void setRequestProperties(Map<String,String> requestProperties) {
     this.requestProperties = requestProperties;
   }
 
@@ -107,7 +107,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
    */
   public void setRequestProperty(String name, String value) {
     if (requestProperties == null) {
-      requestProperties = new HashMap();
+      requestProperties = new HashMap<>();
     }
 
     requestProperties.put(name, value);
@@ -208,6 +208,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
       final String method, final Object arguments, final XmlRpcCallback callback) {
     if (callback == null) {
       new Thread() {
+        @Override
         public void run() {
           try // Just fire and forget.
           {
@@ -292,11 +293,11 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         openConnection();
         connection.setRequestProperty("Content-Length", String.valueOf(buffer.length()));
 
-        OutputStream output = new BufferedOutputStream(connection.getOutputStream());
-        output.write(
-            buffer.toString().getBytes(XmlRpcMessageBundle.getString("XmlRpcClient.Encoding")));
-        output.flush();
-        output.close();
+        try (OutputStream output = new BufferedOutputStream(connection.getOutputStream())) {
+          output.write(
+              buffer.toString().getBytes(XmlRpcMessageBundle.getString("XmlRpcClient.Encoding")));
+          output.flush();
+        }
       }
 
       handleResponse();
@@ -324,7 +325,6 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
    * <p>If the user does not want the socket to be kept alive or if the server does not support
    * keep-alive, the socket is closed.
    *
-   * @param inout The stream containing the server response to interpret.
    * @throws IOException If a socket error occurrs, or if the XML returned is unparseable. This
    *     exception is currently also thrown if a HTTP response other than "200 OK" is received.
    * @throws XmlRpcFault
@@ -362,6 +362,7 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
    * @param qualifiedName {@inheritDoc}
    * @param attributes {@inheritDoc}
    */
+  @Override
   public void startElement(String uri, String name, String qualifiedName, Attributes attributes)
       throws SAXException {
     if (name.equals("fault")) {
@@ -398,26 +399,23 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
         "text/xml; charset=" + XmlRpcMessageBundle.getString("XmlRpcClient.Encoding"));
 
     if (requestProperties != null) {
-      for (Iterator propertyNames = requestProperties.keySet().iterator();
-          propertyNames.hasNext(); ) {
-        String propertyName = (String) propertyNames.next();
-
-        connection.setRequestProperty(propertyName, (String) requestProperties.get(propertyName));
-      }
+        for (Map.Entry<String,String> prop : requestProperties.entrySet()) {
+            connection.setRequestProperty(prop.getKey(), prop.getValue());
+        }
     }
   }
 
   /** The server URL. */
-  private URL url;
+  private final URL url;
 
   /** Connection to the server. */
   private HttpURLConnection connection;
 
   /** HTTP request properties, or null if none have been set by the application. */
-  private Map requestProperties;
+  private Map<String,String> requestProperties;
 
   /** HTTP header fields returned by the server in the latest response. */
-  private Map headerFields = new HashMap();
+  private final Map<String,String> headerFields = new HashMap<>();
 
   /** The parsed value returned in a response. */
   private Object returnValue;
@@ -425,12 +423,12 @@ public class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocationHandle
   /** Writer to which XML-RPC messages are serialized. */
   private Writer writer;
 
-  /** Indicates wheter or not we shall stream the message directly or build them locally? */
-  private boolean streamMessages;
+  /** Indicates whether we shall stream the message directly or build them locally? */
+  private final boolean streamMessages;
 
-  /** Indicates whether or not the incoming response is a fault response. */
+  /** Indicates whether the incoming response is a fault response. */
   private boolean isFaultResponse;
 
   /** The serializer used to serialize arguments. */
-  private XmlRpcSerializer serializer = new XmlRpcSerializer();
+  private final XmlRpcSerializer serializer = new XmlRpcSerializer();
 }

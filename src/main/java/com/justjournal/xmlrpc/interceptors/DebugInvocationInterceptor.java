@@ -16,27 +16,28 @@
 
 package com.justjournal.xmlrpc.interceptors;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import com.justjournal.xmlrpc.XmlRpcInvocation;
 import com.justjournal.xmlrpc.XmlRpcInvocationInterceptor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *  Simple invocation processor that traces the calls made through an XmlRpcServer.
  *  This is used for debugging purposes only. This may be replaced with a more
  *  competent logging processor that perhaps is only logging exceptions that occur.<p>
  *  
- *  Logging occurs either on System.out or on the servlet container log depending
+ *  Logging occurs either on slf4j debug() or on the servlet container log depending
  *  on if a ServletContext is supplied or not when constructing the interceptor.
  *
  *  @author Greger Olsson
  */
-
+@Slf4j
 public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
 {
     /**
      *  Empty default constructor. Using this constructor rather than the
      *  one accepting a ServletContext will cause the output to be printed
-     *  on System.out instead of the servlet container log.
+     *  on slf4j debug() instead of the servlet container log.
      */
 
     public DebugInvocationInterceptor()
@@ -65,7 +66,7 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
 
     public boolean before( XmlRpcInvocation invocation )
     {
-        StringBuffer message = new StringBuffer( 192 );
+        StringBuilder message = new StringBuilder( 192 );
 
         message.append( invocation.getInvocationId() )
                .append( ": " )
@@ -80,7 +81,7 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
         }
         else
         {
-            System.out.println( message.toString() );
+            log.debug( message.toString() );
         }
         
         return true;
@@ -96,7 +97,7 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
 
     public Object after( XmlRpcInvocation invocation, Object returnValue )
     {
-        StringBuffer message = new StringBuffer( 192 );
+        StringBuilder message = new StringBuilder( 192 );
 
         message.append( invocation.getInvocationId() )
                .append( ": " )
@@ -108,7 +109,7 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
         }
         else
         {
-            System.out.println( message.toString() );
+            log.debug( message.toString() );
         }
 
         return returnValue;
@@ -124,7 +125,7 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
 
     public void onException( XmlRpcInvocation invocation, Throwable exception )
     {
-        StringBuffer message = new StringBuffer( 192 );
+        StringBuilder message = new StringBuilder( 192 );
 
         message.append( invocation.getInvocationId() )
                .append( ": " )
@@ -140,8 +141,8 @@ public class DebugInvocationInterceptor implements XmlRpcInvocationInterceptor
             {
                 message.append( exception.getCause().getMessage() );
             }
-            
-            System.out.println( message.toString() );
+
+            log.debug( message.toString() );
 
         }
     }

@@ -45,45 +45,54 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 public abstract class XmlRpcParser extends DefaultHandler
 {
-    /** The hash value of value elements */
-    public final static int VALUE = 111972721;
+  /** The hash value of value elements */
+  public static final int VALUE = 111972721;
 
-    /** The hash value of string elements */
-    public final static int STRING = -891985903;
+  /** The hash value of string elements */
+  public static final int STRING = -891985903;
 
-    /** The hash value of i4 elements */
-    public final static int I4 = 3307;
+  /** The hash value of i4 elements */
+  public static final int I4 = 3307;
 
-    /** The hash value of i8, Apache elements */
-    public final static int I8 = 3311;
-    
+  /** The hash value of i8, Apache elements */
+  public static final int I8 = 3311;
+
     /** The hash value of int elements */
-    public final static int INT = 104431;
+    public static final int INT = 104431;
 
     /** The hash value of boolean elements */
-    public final static int BOOLEAN = 64711720;
+    public static final int BOOLEAN = 64711720;
 
     /** The hash value of double elements */
-    public final static int DOUBLE = -1325958191;
+    public static final int DOUBLE = -1325958191;
 
     /** The hash value of double elements */
-    public final static int DATE = -586971087;
+    public static final int DATE = -586971087;
 
     /** The hash value of double elements */
-    public final static int BASE64 = -1396204209;
+    public static final int BASE64 = -1396204209;
 
     /** The hash value of struct elements */
-    public final static int STRUCT = -891974699;
+    public static final int STRUCT = -891974699;
 
     /** The hash value of array elements */
-    public final static int ARRAY = 93090393;
+    public static final int ARRAY = 93090393;
 
     /** The hash value of member elements */
-    public final static int MEMBER = -1077769574;
+    public static final int MEMBER = -1077769574;
 
     /** The hash value of name elements */
-    public final static int NAME = 3373707;
-
+    public static final int NAME = 3373707;
+    /** A cache of parsers so that we don't have to recreate them at every call. TODO Determine if necessary. */
+    private static final Stack/*<XMLReader>*/ readers = new Stack();
+    /** Our stack of values. May contain several levels depending on message complexity */
+    private final Stack values = new Stack();
+    /** The current value (the currently enclosing <value> element) */
+    private XmlRpcValue currentValue;
+    /** Determines if we shall process the character data fed by the SAX driver */
+    private boolean shallProcessCharData;
+    /** The accumulated character data from the SAX driver. Is emptied when consumed */
+    private final StringBuffer charData = new StringBuffer( 128 );
 
     /**
      *  Abstract method implemented by specialized message parsers like XmlRpcServer
@@ -96,7 +105,6 @@ public abstract class XmlRpcParser extends DefaultHandler
      */
 
     protected abstract void handleParsedValue( Object obj );
-
 
     /**
      *  Parses the XML-RPC message contained in the supplied input stream. It does so
@@ -154,7 +162,6 @@ public abstract class XmlRpcParser extends DefaultHandler
         }
     }
 
-
     /**
      *  Called by SAX driver when a new element has been found in the message.
      *
@@ -167,6 +174,7 @@ public abstract class XmlRpcParser extends DefaultHandler
      *  @param qualifiedName {@inheritDoc}
      */
 
+    @Override
     public void startElement(
         String uri,
         String name,
@@ -209,7 +217,6 @@ public abstract class XmlRpcParser extends DefaultHandler
         }
     }
 
-
     /**
      *  Called by SAX driver when a new end-element has been found in the message.<p>
      *
@@ -228,6 +235,7 @@ public abstract class XmlRpcParser extends DefaultHandler
      *  @param qualifiedName {@inheritDoc}
      */
 
+    @Override
     public void endElement(
         String uri,
         String name,
@@ -275,7 +283,6 @@ public abstract class XmlRpcParser extends DefaultHandler
         }
     }
 
-
     /**
      *  Called by the SAX driver when character data is available.
      *
@@ -290,11 +297,11 @@ public abstract class XmlRpcParser extends DefaultHandler
      *  @param length {@inheritDoc}
      */
 
+    @Override
     public void characters( char[] data, int start, int length )
     {
         charData.append( data, start, length );
     }
-
 
     /**
      *  Consumes the data in the internal string buffer. Whitespace is trimmed and the
@@ -312,7 +319,6 @@ public abstract class XmlRpcParser extends DefaultHandler
         return data;
     }
 
-
     /**
      *  Internal hashcode algorithm. This algorithm is used instead
      *  of the build-in hashCode() method of java.lang.String to ensure
@@ -321,7 +327,7 @@ public abstract class XmlRpcParser extends DefaultHandler
      *  using the String.equals() call for each element. Hash values for
      *  the XML-RPC elements have been pre-calculated and are represented
      *  by the hash constants at the top of this file.
-     *  
+     *
      *  @param string The string to calculate a hash for.
      */
 
@@ -337,20 +343,4 @@ public abstract class XmlRpcParser extends DefaultHandler
 
         return hash;
     }
-
-
-    /** Our stack of values. May contain several levels depending on message complexity */
-    private Stack values = new Stack();
-
-    /** The current value (the currently enclosing <value> element) */
-    private XmlRpcValue currentValue;
-
-    /** Determines if we shall process the character data fed by the SAX driver */
-    private boolean shallProcessCharData;
-
-    /** The accumulated character data from the SAX driver. Is emptied when consumed */
-    private StringBuffer charData = new StringBuffer( 128 );
-
-    /** A cache of parsers so that we don't have to recreate them at every call. TODO Determine if necessary. */
-    private static Stack/*<XMLReader>*/ readers = new Stack();
 }
