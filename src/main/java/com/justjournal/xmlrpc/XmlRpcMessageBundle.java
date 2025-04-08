@@ -22,14 +22,14 @@ import java.util.ResourceBundle;
 @Slf4j
 public class XmlRpcMessageBundle {
     private static final String BUNDLE_NAME = "com.justjournal.xmlrpc.XmlRpcMessages";
-    private static ResourceBundle RESOURCE_BUNDLE;
+    private static ResourceBundle resourceBundle;
 
     static {
         try {
-            RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+            resourceBundle = ResourceBundle.getBundle(BUNDLE_NAME);
         } catch (MissingResourceException e) {
             log.warn("{} not found. Using fallback messages.", BUNDLE_NAME);
-            RESOURCE_BUNDLE = null;
+            resourceBundle = null;
         }
     }
 
@@ -46,11 +46,11 @@ public class XmlRpcMessageBundle {
      * @return The localized string if found, otherwise '!key!'.
      */
     public static String getString(String key) {
-        if (RESOURCE_BUNDLE == null) {
+        if (resourceBundle == null) {
             return '!' + key + '!';
         }
         try {
-            return RESOURCE_BUNDLE.getString(key);
+            return resourceBundle.getString(key);
         } catch (MissingResourceException e) {
             return '!' + key + '!';
         }

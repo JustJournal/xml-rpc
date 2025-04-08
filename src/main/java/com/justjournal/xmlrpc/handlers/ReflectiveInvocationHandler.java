@@ -22,6 +22,7 @@ import java.util.List;
 import com.justjournal.xmlrpc.XmlRpcException;
 import com.justjournal.xmlrpc.XmlRpcInvocationHandler;
 import com.justjournal.xmlrpc.XmlRpcMessageBundle;
+import lombok.Setter;
 
 /**
  *  Note that methods that are to be called over XML-RPC need to be public, or the
@@ -75,25 +76,6 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
 
 
     /**
-     *  Assigns a list of method names that are used when invoking methods on this handler.
-     *  After calling this method, only methods listed in the supplied entryPoints list
-     *  will be available for invocation. Note that for a given method "testMethod", all
-     *  overloaded versions of that method will be available. That is, the invocation
-     *  mechanism does not take into account parameter lists, just names.<p>
-     *
-     *  A null entry point list means all public methods are available.
-     *
-     *  @param entryPoints A list of method names that may be invoked on this handler, or
-     *                     null if all methods should be available.
-     */
-
-    public void setEntryPoints( String[] entryPoints )
-    {
-        this.entryPoints = entryPoints;
-    }
-
-
-    /**
      *  Called by the XmlRpcServer when a method is to be invoked. This implementation
      *  tries to locate the supplied method in the target object using Java Reflection.
      *  If the invocation handler keeps a list of published methods, this is first checked
@@ -103,7 +85,6 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
      *
      *  @param arguments A vector containting all arguments required by the method.
      */
-
     public Object invoke(
         String methodName,
         List arguments )
@@ -245,6 +226,18 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
     /** The object to reflect upon when locating methods. */
     protected Object target;
 
-    /** An optional list of "public" entry points. **/
+    /** An optional list of "public" entry points.
+     * -- SETTER --
+     *   Assigns a list of method names that are used when invoking methods on this handler.
+     *   After calling this method, only methods listed in the supplied entryPoints list
+     *   will be available for invocation. Note that for a given method "testMethod", all
+     *   overloaded versions of that method will be available. That is, the invocation
+     *   mechanism does not take into account parameter lists, just names.<p>
+     *   A null entry point list means all public methods are available.
+     *
+     * @param entryPoints A list of method names that may be invoked on this handler, or
+     *                     null if all methods should be available.
+     **/
+    @Setter
     private String[] entryPoints;
 }
