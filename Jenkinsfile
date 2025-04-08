@@ -17,9 +17,11 @@ pipeline {
             }
             post {
                 always {
-                junit '**/build/test-results/junit/*.xml'
+                    junit '**/build/test-results/junit/*.xml'
+                }
             }
-        }
+       }
+
        stage('Coverage') {
             steps {
                 recordCoverage(
@@ -36,7 +38,8 @@ pipeline {
                 )
             }
        }
-        stage('Sonarqube') {
+
+       stage('Sonarqube') {
             steps {
                 withSonarQubeEnv('sonarcloud') {
                     sh 'mvn sonar:sonar -Dsonar.organization=justjournal -Dsonar.projectKey=JustJournal_xml-rpc -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml'
@@ -45,6 +48,6 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
+       }
     }
 }
