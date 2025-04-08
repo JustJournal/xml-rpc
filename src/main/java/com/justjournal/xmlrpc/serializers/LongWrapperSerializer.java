@@ -36,7 +36,7 @@ public class LongWrapperSerializer implements XmlRpcCustomSerializer
      *  @see redstone.xmlrpc.XmlRpcCustomSerializer#getSupportedClass()
      */
     
-    /** Flag indicating whether the Apache &lt;i8&gt; extension should be used. */
+    /** Flag indicating whether the Apache i8 extension should be used. */
     private boolean useApacheExtension;
 
     public Class getSupportedClass()
