@@ -16,6 +16,8 @@
 
 package com.justjournal.xmlrpc;
 
+import com.justjournal.xmlrpc.serializers.*;
+import com.justjournal.xmlrpc.util.Base64;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -23,9 +25,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.justjournal.xmlrpc.serializers.*;
-import com.justjournal.xmlrpc.util.Base64;
 
 /**
  *  The XmlRpcSerializer class converts Java objects to their XML-RPC counterparts
@@ -42,6 +41,12 @@ import com.justjournal.xmlrpc.util.Base64;
 
 public class XmlRpcSerializer
 {
+    /** Date formatter shared by all XmlRpcValues */
+    private static final SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyyMMdd'T'HH:mm:ss" );
+    /** The list of currently registered custom serializers */
+    protected List<XmlRpcCustomSerializer> customSerializers = new ArrayList<>();
+
+
     /**
      *  Constructor adding all core custom serializers.
      */
@@ -49,13 +54,13 @@ public class XmlRpcSerializer
     public XmlRpcSerializer()
     {
         this( true );
-    }    
-    
+    }
+
 
     /**
      *  Constructor that may add all the custom serializers in the library
      *  (which is almost always what you want).
-     *  
+     *
      *  @param addCustomSerializers Indicates if the core custom serializers should be added.
      */
 
@@ -78,7 +83,6 @@ public class XmlRpcSerializer
         }
     }
 
-
     /**
      * Writes the XML-RPC envelope header to the specified writer.
      * This method generates the opening tags for an XML-RPC response,
@@ -94,8 +98,7 @@ public class XmlRpcSerializer
         writer.write( XmlRpcMessageBundle.getString( "XmlRpcServlet.Encoding" ) );
         writer.write( "\"?><methodResponse><params><param>" );
     }
-
-
+    
     /**
      * Writes the XML-RPC envelope footer to the specified writer.
      * This method generates the closing tags for an XML-RPC response,
@@ -119,7 +122,6 @@ public class XmlRpcSerializer
         }
     }
 
-
     /**
      * Writes an XML-RPC error response to the specified writer.
      * This method generates an XML-RPC fault response, including the fault code and fault string.
@@ -142,11 +144,17 @@ public class XmlRpcSerializer
         serialize( message, writer );
         writer.write( "</member></struct></value></fault></methodResponse>" );
     }
-    
-    
+
     /**
-     *  Converts the supplied Java object to its XML-RPC counterpart according to
-     *  the XML-RPC specification.
+     * Converts the supplied Java object to its XML-RPC counterpart according to
+     * the XML-RPC specification. This method handles basic Java types such as String,
+     * Character, Integer, Short, Byte, Double, Float, Boolean, Calendar, Date, and byte arrays.
+     * For other types, it attempts to use registered custom serializers.
+     *
+     * @param value The Java object to be serialized to XML-RPC format.
+     * @param writer The Writer object to which the XML-RPC representation will be written.
+     * @throws XmlRpcException If the value's type is not supported and no suitable custom serializer is found.
+     * @throws IOException If an I/O error occurs while writing to the writer.
      */
     public void serialize(
         Object value,
@@ -201,7 +209,7 @@ public class XmlRpcSerializer
         else if ( value instanceof Boolean )
         {
             writer.write( "<boolean>" );
-            writer.write( (Boolean) value == true ? "1" : "0" );
+            writer.write( (Boolean) value ? "1" : "0" );
             writer.write( "</boolean>" );
         }
         else if ( value instanceof java.util.Calendar )
@@ -254,7 +262,6 @@ public class XmlRpcSerializer
         writer.write( "</value>" );
     }
 
-
     /**
      * Registers a custom serializer in the list of serializers.
      * <p>
@@ -291,8 +298,7 @@ public class XmlRpcSerializer
 
         customSerializers.add( customSerializer );
     }
-
-
+    
     /**
      * Unregisters a previously registered custom serializer.
      * This method removes the specified custom serializer from the list of registered serializers.
@@ -307,11 +313,4 @@ public class XmlRpcSerializer
     {
         customSerializers.remove( customSerializer );
     }
-
-
-    /** The list of currently registered custom serializers */
-    protected List<XmlRpcCustomSerializer> customSerializers = new ArrayList<>();
-    
-    /** Date formatter shared by all XmlRpcValues */
-    private static final SimpleDateFormat dateFormatter = new SimpleDateFormat( "yyyyMMdd'T'HH:mm:ss" );
 }

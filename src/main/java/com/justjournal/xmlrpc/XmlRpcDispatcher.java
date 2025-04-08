@@ -36,6 +36,7 @@ import org.xml.sax.SAXException;
 @Slf4j
 public class XmlRpcDispatcher extends XmlRpcParser
 {
+    /** The default name for the default handler */
     public static String DEFAULT_HANDLER_NAME = "__default__";
     /** The current call sequence for traceability */
     private static int callSequence;
@@ -43,6 +44,11 @@ public class XmlRpcDispatcher extends XmlRpcParser
     private final XmlRpcServer server;
     /**
      * The IP address of the client being dispatched.
+     * <p>
+     * This field stores the IP address of the client that initiated the XML-RPC request.
+     * It can be used for logging, access control, or other client-specific operations.
+     *
+     * @return the IP address of the client making the XML-RPC call
      */
     @Getter
     private final String callerIp;
@@ -73,8 +79,17 @@ public class XmlRpcDispatcher extends XmlRpcParser
      * Dispatches inbound XML-RPC messages to the appropriate handlers.
      * This method parses the incoming XML message, locates the appropriate invocation handler,
      * and processes the request through pre-processing, invocation, and post-processing stages.
+     * <p>
+     * The method performs the following steps:
+     * 1. Parses the inbound XML-RPC message.
+     * 2. Determines the handler and method name from the parsed message.
+     * 3. Retrieves the appropriate invocation handler.
+     * 4. Creates an XmlRpcInvocation object if there are any invocation interceptors.
+     * 5. Executes pre-processing, invocation, and post-processing steps.
+     * 6. Handles any exceptions that occur during the process.
+     * 7. Writes the response or error message to the output.
      *
-     * @param xmlInput The InputStream containing the XML-RPC request message.
+     * @param xmlInput The InputStream containing the XML-RPC request message to be processed.
      * @param xmlOutput The Writer to which the XML-RPC response will be written.
      * @throws XmlRpcException When the inbound XML message cannot be parsed due to no
      *                         available SAX driver, or when an invalid message was received.
@@ -166,6 +181,10 @@ public class XmlRpcDispatcher extends XmlRpcParser
   /**
    * Override the endElement() method of the XmlRpcParser class, and catch the method name element.
    * The method name element is unique for XML-RPC calls, and belongs here in the server.
+   *
+   * @param uri      The XML namespace URI.
+   * @param name      The local name of the element.
+   * @param qualifiedName The qualified name of the element.
    */
   @Override
   public void endElement(String uri, String name, String qualifiedName) throws SAXException {
@@ -184,8 +203,9 @@ public class XmlRpcDispatcher extends XmlRpcParser
      *  be called whenever a value is parsed during a parse() call. In this
      *  case, the parsed values represent arguments to be sent to the invocation
      *  handler of the call.
+     *
+     * @param value The parsed value.
      */
-
     protected void handleParsedValue( Object value )
     {
         arguments.add( value );
@@ -252,6 +272,10 @@ public class XmlRpcDispatcher extends XmlRpcParser
     /**
      *  Invokes all processor objects registered with the XmlRpcServer this dispatcher is
      *  working for.
+     *
+     * @param invocation The XmlRpcInvocation object representing the current invocation.
+     * @param exception The exception that occurred during the invocation.
+     *
      */
     private void processException(
         XmlRpcInvocation invocation,

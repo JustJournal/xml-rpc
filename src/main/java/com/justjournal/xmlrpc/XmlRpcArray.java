@@ -47,7 +47,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The String value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a String.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public String getString(int index) {
     return (String) get(index);
@@ -62,7 +62,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The boolean value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Boolean.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public boolean getBoolean(int index) {
     return (Boolean) get(index);
@@ -78,7 +78,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The Boolean wrapper object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Boolean.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public Boolean getBooleanWrapper(int index) {
     return (Boolean) get(index);
@@ -93,7 +93,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The integer value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not an Integer.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public int getInteger(int index) {
     return (Integer) get(index);
@@ -109,7 +109,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The Integer wrapper object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not an Integer.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public Integer getIntegerWrapper(int index) {
     return (Integer) get(index);
@@ -124,7 +124,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The double value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Double.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public double getDouble(int index) {
     return (Double) get(index);
@@ -140,7 +140,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The Double wrapper object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Double.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public Double getDoubleWrapper(int index) {
     return (Double) get(index);
@@ -156,7 +156,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The XmlRpcArray at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not an XmlRpcArray.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public XmlRpcArray getArray(int index) {
     return (XmlRpcArray) get(index);
@@ -172,7 +172,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The XmlRpcStruct at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not an XmlRpcStruct.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public XmlRpcStruct getStruct(int index) {
     return (XmlRpcStruct) get(index);
@@ -188,7 +188,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The Date object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Date object.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public Date getDate(int index) {
     return (Date) get(index);
@@ -204,7 +204,7 @@ public class XmlRpcArray extends ArrayList<Object> {
    * @param index The zero-based index of the element to retrieve from the array.
    * @return The byte array at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a byte array.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()).
    */
   public byte[] getBinary(int index) {
     return (byte[]) get(index);

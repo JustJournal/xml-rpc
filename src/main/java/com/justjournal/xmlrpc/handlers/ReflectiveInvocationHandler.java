@@ -135,41 +135,20 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
 
 
     /**
-     *  Locates the method with the given signature and invokes it. The getMethod( Object, Class[] )
-     *  method of java.lang.Class requires the argument classes to exactly match the formal
-     *  parameters of the method. Therefor, an internal algorithm is used to locate the
-     *  method where the parameters only need to be assignment compatible with the arguments.
-     *  That is, a handler method accepting a java.lang.Object for a parameter will match
-     *  a java.lang.String argument.<p>
+     * Locates and invokes a method with the given signature using reflection.
+     * <p>
+     * This method uses an internal algorithm to find a matching method where the parameters
+     * only need to be assignment compatible with the arguments. This allows for more
+     * flexible method matching compared to the strict matching of java.lang.Class.getMethod().
+     * <p>
+     * <b>Note:</b> For optimal performance, overloaded methods in the handler class should
+     * be listed with increasing parameter type specialization.
      *
-     *  <b>Note:</b> in order to reduce the complexity of the algorithm and to minimize
-     *  CPU overhead, overloaded methods in the handler class must be listed with increasing
-     *  parameter type specialization:<p>
-     *
-     *  <pre>
-     *    class TestHandler extends ReflectiveInvocationHandler
-     *    {
-     *        public void myMethod( Object param ) { ... }
-     *
-     *        public void myMethod( String param ) { ... }
-     *    }
-     *  </pre><p>
-     *
-     *  This, however, is only necessary when the number of parameters are the same and they
-     *  descend from the same super class. In other words, if the first myMethod() method
-     *  would accept a Collection instead of an Object, the methods may be listed in any
-     *  order. (Short version: the reflection algorithm will pick the first matching method,
-     *  from the end, where the arguments in the call are assignment compatible with the
-     *  parameters).
-     *
-     *  @param methodName The name of the method
-     *
-     *  @param argClasses An Array of Classes identifying the method signature
-     *
-     *  @param argValues An Array of parameter objects
-     *
+     * @param methodName The name of the method to be invoked
+     * @param argClasses An array of Class objects representing the types of the method arguments
+     * @param argValues An array of Object instances containing the actual argument values
      * @return The result of the method invocation
-     * @throws Throwable If an error occurs during the method invocation
+     * @throws Throwable If an error occurs during method lookup or invocation
      */
     protected Object execute(
         String methodName,
