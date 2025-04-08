@@ -32,9 +32,34 @@ import java.util.Map;
  *
  *  @author Greger Olsson
  */
-
 public class XmlRpcProxy implements InvocationHandler
 {
+    /** The encapsulated XmlRpcClient receiving the converted dynamic calls */
+    protected XmlRpcClient client;
+    /** The name of the handler that will handle the converted dynamic calls */
+    protected String objectName;
+
+
+    /**
+     * Creates a new XmlRpcProxy which is a dynamic proxy invocation handler with
+     * an encapsulated XmlRpcClient. This constructor is protected and not intended
+     * for public usage -- use createProxy() instead.
+     *
+     * @param url The URL of the XML-RPC server that will receive calls through the proxy.
+     * @param objectName The name of the handler that will handle the converted dynamic calls.
+     *                   If null, the handler name will be derived from the interface name.
+     * @param streamMessages A boolean flag indicating whether to stream messages or not.
+     *                       If true, the XML-RPC client will stream messages to the server.
+     */
+    protected XmlRpcProxy(
+        URL url,
+        String objectName,
+        boolean streamMessages )
+    {
+        client = new XmlRpcClient( url, streamMessages );
+        this.objectName = objectName;
+    }
+    
     /**
      *  Creates a new dynamic proxy object that implements all the
      *  supplied interfaces.  This object may be type cast to any of
@@ -48,6 +73,8 @@ public class XmlRpcProxy implements InvocationHandler
      *  @param interfaces The list of interfaces the proxy should
      *                    implement.
      *
+     * @param streamMessages whether to use streaming for sending messages
+     *
      *  @return An object implementing the supplied interfaces with
      *          XML-RPC support.
      */
@@ -59,7 +86,6 @@ public class XmlRpcProxy implements InvocationHandler
     {
         return createProxy( url, null, interfaces, streamMessages );
     }
-
 
     /**
      *  Creates a new dynamic proxy object that implements all
@@ -76,6 +102,7 @@ public class XmlRpcProxy implements InvocationHandler
      *
      *  @param objectName The name under which the handler is
      *                    reachable
+     *@param streamMessages whether to use streaming for sending messages
      *
      *  @return An object implementing the supplied interfaces with
      *          XML-RPC support
@@ -93,7 +120,6 @@ public class XmlRpcProxy implements InvocationHandler
             new XmlRpcProxy( url, objectName, streamMessages ) );
     }
 
-
     /**
      *  Sets the HTTP request properties that the proxy will use for the next invocation,
      *  and any invocations that follow until setRequestProperties() is invoked again. Null
@@ -105,12 +131,10 @@ public class XmlRpcProxy implements InvocationHandler
      *                           any previous properties set using this method or the
      *                           setRequestProperty() method.
      */
-
-    public void setRequestProperties( Map requestProperties )
+    public void setRequestProperties( Map<String,String> requestProperties )
     {
         client.setRequestProperties( requestProperties );
     }
-    
 
     /**
      *  Sets a single HTTP request property to be used in future invocations.
@@ -119,29 +143,26 @@ public class XmlRpcProxy implements InvocationHandler
      *  @param name Name of the property to set
      *  @param value The value of the property
      */
-
     public void setRequestProperty( String name, String value )
     {
         client.setRequestProperty( name, value );
     }
 
-    
     /**
      *  Returns the HTTP header fields from the latest server invocation.
      *  These are the fields set by the HTTP server hosting the XML-RPC service.
-     * 
+     *
      *  @return The HTTP header fields from the latest server invocation. Note that
      *          the XmlRpcClient instance retains ownership of this map and the map
      *          contents is replaced on the next request. If there is a need to
      *          keep the fields between requests the map returned should be cloned.
      */
-    
+
     public Map getResponseHeaderFields()
     {
         return client.getResponseHeaderFields();
     }
 
-    
     /**
      *  Handles method calls invoked on the proxy object. This is not used by the
      *  application but has to be public so that the dynamic proxy has access to it.
@@ -193,35 +214,6 @@ public class XmlRpcProxy implements InvocationHandler
 
         // Let the basic XmlRpcClient perform the call. This may result in an XmlRpcException
         // which will be propagated out from this method.
-        
         return client.invoke( handlerName + method.getName(), args );
     }
-
-
-    /**
-     * Creates a new XmlRpcProxy which is a dynamic proxy invocation handler with
-     * an encapsulated XmlRpcClient. This constructor is protected and not intended
-     * for public usage -- use createProxy() instead.
-     *
-     * @param url The URL of the XML-RPC server that will receive calls through the proxy.
-     * @param objectName The name of the handler that will handle the converted dynamic calls.
-     *                   If null, the handler name will be derived from the interface name.
-     * @param streamMessages A boolean flag indicating whether to stream messages or not.
-     *                       If true, the XML-RPC client will stream messages to the server.
-     */
-    protected XmlRpcProxy(
-        URL url,
-        String objectName,
-        boolean streamMessages )
-    {
-        client = new XmlRpcClient( url, streamMessages );
-        this.objectName = objectName;
-    }
-
-    
-    /** The encapsulated XmlRpcClient receiving the converted dynamic calls */
-    protected XmlRpcClient client;
-
-    /** The name of the handler that will handle the converted dynamic calls */
-    protected String objectName;
 }

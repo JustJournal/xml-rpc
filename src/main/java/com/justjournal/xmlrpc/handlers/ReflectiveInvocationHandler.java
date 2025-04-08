@@ -168,8 +168,9 @@ public class ReflectiveInvocationHandler implements XmlRpcInvocationHandler
      *
      *  @param argValues An Array of parameter objects
      *
+     * @return The result of the method invocation
+     * @throws Throwable If an error occurs during the method invocation
      */
-
     protected Object execute(
         String methodName,
         Class[] argClasses,

@@ -17,7 +17,6 @@
 package com.justjournal.xmlrpc;
 
 import com.justjournal.xmlrpc.serializers.json.*;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -42,6 +41,9 @@ import java.util.Date;
  * @author Greger Olsson
  */
 public class XmlRpcJsonSerializer extends XmlRpcSerializer {
+  /** Shared date formatter shared. */
+  private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-dd-mm HH:mm:ss");
+
   /** Constructor adding all core custom serializers. */
   public XmlRpcJsonSerializer() {
     this(true);
@@ -69,13 +71,27 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer {
     }
   }
 
-  /** Overrides the default serializing mechanism to use JSON format instead. */
+  /**
+   * Writes the opening character of a JSON envelope.
+   * This method overrides the default serializing mechanism to use JSON format instead of XML.
+   *
+   * @param value The object to be serialized (not used in this implementation).
+   * @param writer The Writer object to which the JSON envelope header will be written.
+   * @throws IOException If an I/O error occurs while writing to the Writer.
+   */
   @Override
   public void writeEnvelopeHeader(Object value, Writer writer) throws IOException {
     writer.write('(');
   }
 
-  /** Overrides the default serializing mechanism to use JSON format instead. */
+  /**
+   * Writes the closing character of a JSON envelope.
+   * This method overrides the default serializing mechanism to use JSON format instead of XML.
+   *
+   * @param value The object being serialized (not used in this implementation).
+   * @param writer The Writer object to which the JSON envelope footer will be written.
+   * @throws IOException If an I/O error occurs while writing to the Writer.
+   */
   @Override
   public void writeEnvelopeFooter(Object value, Writer writer) throws IOException {
     writer.write(')');
@@ -95,7 +111,18 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer {
     writer.write('\'');
   }
 
-  /** Overrides the default serializing mechanism to use JSON format instead. */
+  /**
+   * Serializes an object to JSON format.
+   * This method overrides the default serializing mechanism to use JSON format instead of XML.
+   * It handles basic types (String, Character, Number, Boolean, Calendar, Date) directly,
+   * and uses custom serializers for other types.
+   *
+   * @param value  The object to be serialized. Can be of various types including String,
+   *               Character, Number, Boolean, Calendar, Date, or custom types.
+   * @param writer The Writer object to which the JSON-formatted output will be written.
+   * @throws XmlRpcException If the object type is not supported and no custom serializer is found.
+   * @throws IOException     If an I/O error occurs while writing to the Writer.
+   */
   @Override
   public void serialize(Object value, Writer writer) throws XmlRpcException, IOException {
     if (value instanceof String || value instanceof Character) {
@@ -121,10 +148,9 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer {
       // registered for it.
 
       for (XmlRpcCustomSerializer customSerializer : customSerializers) {
-        XmlRpcCustomSerializer serializer = customSerializer;
 
-        if (serializer.getSupportedClass().isInstance(value)) {
-          serializer.serialize(value, writer, this);
+          if (customSerializer.getSupportedClass().isInstance(value)) {
+          customSerializer.serialize(value, writer, this);
           return;
         }
       }
@@ -133,7 +159,4 @@ public class XmlRpcJsonSerializer extends XmlRpcSerializer {
           XmlRpcMessageBundle.getString("XmlRpcSerializer.UnsupportedType") + value.getClass());
     }
   }
-
-  /** Shared date formatter shared. */
-  private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-dd-mm HH:mm:ss");
 }

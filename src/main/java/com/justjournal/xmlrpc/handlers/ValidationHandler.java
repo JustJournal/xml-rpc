@@ -36,10 +36,18 @@ public class ValidationHandler extends ReflectiveInvocationHandler {
   private static final String CURLY = "curly";
 
   /**
-   * This handler takes a single parameter, an array of structs, each of which contains at least
-   * three elements named moe, larry and curly, all &lt;i4&gt;s. Your handler must add all the
-   * struct elements named curly and return the result.
-   * @param structs An array of structs.
+   * Calculates the sum of all 'curly' values in an array of structs.
+   * This method is part of the XML-RPC validation suite and is used to verify
+   * that the XML-RPC implementation can correctly handle arrays of structs
+   * and perform calculations on their contents.
+   *
+   * @param structs A List of Objects, where each Object is expected to be a Map
+   *                representing a struct. Each struct should contain at least
+   *                three elements named 'moe', 'larry', and 'curly', all of which
+   *                are integers (represented as &lt;i4&gt; in XML-RPC).
+   * @return int The sum of all 'curly' values across all structs in the input list.
+   *         If a struct doesn't contain a 'curly' key or its value is not an Integer,
+   *         it will be skipped without throwing an exception.
    */
   public int arrayOfStructsTest(List<Object> structs) {
     int result = 0;
@@ -53,10 +61,20 @@ public class ValidationHandler extends ReflectiveInvocationHandler {
   }
 
   /**
-   * This handler takes a single parameter, a string, that contains any number of predefined
-   * entities, namely &lt;, &gt;, &amp;, ' and &quot;. Your handler must return a struct that
-   * contains five fields, all numbers: ctLeftAngleBrackets, ctRightAngleBrackets, ctAmpersands,
-   * ctApostrophes, ctQuotes. To validate, the numbers must be correct.
+   * Counts the occurrences of specific predefined entities in a given string.
+   * This method is part of the XML-RPC validation suite and is used to verify
+   * that the XML-RPC implementation can correctly handle and count specific characters.
+   *
+   * @param str The input string to be analyzed. It may contain any number of the following
+   *            predefined entities: &lt;, &gt;, &amp;, ' and &quot;
+   * @return A Map containing the count of each entity type with the following keys:
+   *         <ul>
+   *         <li>"ctLeftAngleBrackets": count of '&lt;' characters</li>
+   *         <li>"ctRightAngleBrackets": count of '&gt;' characters</li>
+   *         <li>"ctAmpersands": count of '&amp;' characters</li>
+   *         <li>"ctApostrophes": count of ''' characters</li>
+   *         <li>"ctQuotes": count of '&quot;' characters</li>
+   *         </ul>
    */
   public Map<String, Integer> countTheEntities(String str) {
     int ctLeftAngleBrackets = 0;
@@ -98,11 +116,17 @@ public class ValidationHandler extends ReflectiveInvocationHandler {
   }
 
   /**
-   * This handler takes a single parameter, a struct, containing at least three elements named moe,
-   * larry and curly, all &lt;i4&gt;s. Your handler must add the three numbers and return the
-   * result.
+   * Performs a simple addition test on a struct containing three integer values.
+   * This handler is part of the XML-RPC validation suite and is used to verify
+   * that the XML-RPC implementation can correctly handle struct types and perform
+   * basic arithmetic operations.
    *
-   * @param struct The struct containing the numbers
+   * @param struct A Map representing a struct containing at least three elements:
+   *               "moe", "larry", and "curly". Each of these elements should be
+   *               an Integer (represented as &lt;i4&gt; in XML-RPC).
+   * @return int The sum of the values associated with the keys "moe", "larry", and "curly".
+   *         If any of these keys are missing or their values are not Integers,
+   *         the behavior is undefined and may result in a runtime exception.
    */
   public int easyStructTest(Map<String,Object> struct) {
     int result = 0;
@@ -115,9 +139,14 @@ public class ValidationHandler extends ReflectiveInvocationHandler {
   }
 
   /**
-   * This handler takes a single parameter, a struct. Your handler must return the struct.
+   * Echoes the input struct back as the return value.
+   * This method is part of the XML-RPC validation suite and is used to verify
+   * that the XML-RPC implementation can correctly handle and return struct types.
    *
-   * @param struct The struct to echo
+   * @param struct The input struct to be echoed back. This can be any valid Map object
+   *               containing key-value pairs of any type supported by the XML-RPC protocol.
+   * @return A Map object identical to the input struct. The returned Map will have
+   *         the same key-value pairs as the input, maintaining the original structure and data types.
    */
   public Map echoStructTest(Map struct) {
     return struct;
@@ -164,11 +193,11 @@ public class ValidationHandler extends ReflectiveInvocationHandler {
    * This handler takes a single parameter, a struct, that models a daily calendar. At the top
    * level, there is one struct for each year. Each year is broken down into months, and months into
    * days. Most of the days are empty in the struct you receive, but the entry for April 1, 2000
-   * contains a least three elements named moe, larry and curly, all &lt;i4&gt;s. Your handler must
+   * contains the least three elements named moe, larry and curly, all &lt;i4&gt;s. Your handler must
    * add the three numbers and return the result.
    *
    * @param struct The struct containing the daily calendar
-   * @return The result of adding the three numbers in April 1, 2000
+   * @return The result of adding the three numbers on April 1, 2000
    */
   public int nestedStructTest(Map<String, Object> struct) {
     int result = 0;

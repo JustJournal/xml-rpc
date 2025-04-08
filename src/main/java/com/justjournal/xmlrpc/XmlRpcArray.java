@@ -38,110 +38,173 @@ import java.util.Date;
  */
 public class XmlRpcArray extends ArrayList<Object> {
   /**
-   * Returns the String at the given index in the array.
+   * Retrieves the String value at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the String stored at the given index in the array. It performs
+   * a cast to String, which may throw a ClassCastException if the value at the specified
+   * index is not actually a String.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The String value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a String.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public String getString(int index) {
     return (String) get(index);
   }
 
   /**
-   * Returns the boolean at the given index in the array.
+   * Retrieves the boolean value at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the boolean value stored at the given index in the array.
+   * It performs a cast to Boolean and then unboxes it to a primitive boolean.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The boolean value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Boolean.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public boolean getBoolean(int index) {
     return (Boolean) get(index);
   }
 
   /**
-   * Returns the Boolean wrapper at the given index in the array.
+   * Retrieves the Boolean wrapper object at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the Boolean object stored at the given index in the array.
+   * It performs a cast to Boolean, which may throw a ClassCastException if the value
+   * at the specified index is not actually a Boolean.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The Boolean wrapper object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Boolean.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public Boolean getBooleanWrapper(int index) {
     return (Boolean) get(index);
   }
 
   /**
-   * Returns the integer at the given index in the array.
+   * Retrieves the integer value at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the integer value stored at the given index in the array.
+   * It performs a cast to Integer and then unboxes it to a primitive int.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The integer value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not an Integer.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public int getInteger(int index) {
     return (Integer) get(index);
   }
 
   /**
-   * Returns the Integer wrapper at the given index in the array.
+   * Retrieves the Integer wrapper object at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
-   * @throws ClassCastException if the value at the given index is not a Integer.
+   * <p>This method returns the Integer object stored at the given index in the array.
+   * It performs a cast to Integer, which may throw a ClassCastException if the value
+   * at the specified index is not actually an Integer.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The Integer wrapper object at the specified index in the array.
+   * @throws ClassCastException if the value at the given index is not an Integer.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public Integer getIntegerWrapper(int index) {
     return (Integer) get(index);
   }
 
   /**
-   * Returns the Double at the given index in the array.
+   * Retrieves the double value at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the double value stored at the given index in the array.
+   * It performs a cast to Double and then unboxes it to a primitive double.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The double value at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Double.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public double getDouble(int index) {
     return (Double) get(index);
   }
 
   /**
-   * Returns the Double wrapper at the given index in the array.
+   * Retrieves the Double wrapper object at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
+   * <p>This method returns the Double object stored at the given index in the array.
+   * It performs a cast to Double, which may throw a ClassCastException if the value
+   * at the specified index is not actually a Double.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The Double wrapper object at the specified index in the array.
    * @throws ClassCastException if the value at the given index is not a Double.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public Double getDoubleWrapper(int index) {
     return (Double) get(index);
   }
 
   /**
-   * Returns the Array at the given index in the array.
+   * Retrieves the XmlRpcArray at the specified index in this XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
-   * @throws ClassCastException if the value at the given index is not an Array.
+   * <p>This method returns the XmlRpcArray stored at the given index in the array.
+   * It performs a cast to XmlRpcArray, which may throw a ClassCastException if the value
+   * at the specified index is not actually an XmlRpcArray.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The XmlRpcArray at the specified index in the array.
+   * @throws ClassCastException if the value at the given index is not an XmlRpcArray.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public XmlRpcArray getArray(int index) {
     return (XmlRpcArray) get(index);
   }
 
   /**
-   * Returns the Struct at the given index in the array.
+   * Retrieves the XmlRpcStruct at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
-   * @throws ClassCastException if the value at the given index is not a Struct.
+   * <p>This method returns the XmlRpcStruct stored at the given index in the array.
+   * It performs a cast to XmlRpcStruct, which may throw a ClassCastException if the value
+   * at the specified index is not actually an XmlRpcStruct.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The XmlRpcStruct at the specified index in the array.
+   * @throws ClassCastException if the value at the given index is not an XmlRpcStruct.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public XmlRpcStruct getStruct(int index) {
     return (XmlRpcStruct) get(index);
   }
 
   /**
-   * Returns the Date at the given index in the array.
+   * Retrieves the Date object at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
-   * @throws ClassCastException if the value at the given index is not a Date.
+   * <p>This method returns the Date object stored at the given index in the array.
+   * It performs a cast to Date, which may throw a ClassCastException if the value
+   * at the specified index is not actually a Date object.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The Date object at the specified index in the array.
+   * @throws ClassCastException if the value at the given index is not a Date object.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public Date getDate(int index) {
     return (Date) get(index);
   }
 
   /**
-   * Returns the byte[] at the given index in the array.
+   * Retrieves the byte array at the specified index in the XmlRpcArray.
    *
-   * @param index The index into the array to extract the value from.
-   * @throws ClassCastException if the value at the given index is not a byte[].
+   * <p>This method returns the byte array stored at the given index in the array.
+   * It performs a cast to byte[], which may throw a ClassCastException if the value
+   * at the specified index is not actually a byte array.
+   *
+   * @param index The zero-based index of the element to retrieve from the array.
+   * @return The byte array at the specified index in the array.
+   * @throws ClassCastException if the value at the given index is not a byte array.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()).
    */
   public byte[] getBinary(int index) {
     return (byte[]) get(index);
