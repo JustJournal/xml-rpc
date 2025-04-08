@@ -145,5 +145,7 @@ sonarqube {
         property "sonar.projectKey", "JustJournal_xml-rpc"
         property "sonar.organization", "justjournal"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.scanner.os", "linux"
+        property "sonar.scanner.arch", "x64"
     }
 }
