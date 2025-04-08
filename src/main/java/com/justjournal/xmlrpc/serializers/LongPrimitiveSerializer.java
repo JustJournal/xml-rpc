@@ -23,20 +23,18 @@ import com.justjournal.xmlrpc.XmlRpcException;
 import com.justjournal.xmlrpc.XmlRpcSerializer;
 
 /**
- *  Serializes primitiv longs. Note that unless setUseApacheExtension( true )
+ *  Serializes primitive longs. Note that unless setUseApacheExtension( true )
  *  has been invoked, the longs are demoted to integers before being serialized
- *  into regular XML-RPC &lt;i4>'s, possibly losing significant bits in the
+ *  into regular XML-RPC &lt;i4&gt;'s, possibly losing significant bits in the
  *  conversion.
  * 
  *  @author Greger Olsson
  */
-
 public class LongPrimitiveSerializer implements XmlRpcCustomSerializer
 {
     /*  (Documentation inherited)
      *  @see redstone.xmlrpc.XmlRpcCustomSerializer#getSupportedClass()
      */
-    
     public Class getSupportedClass()
     {
         return long.class;
@@ -44,12 +42,11 @@ public class LongPrimitiveSerializer implements XmlRpcCustomSerializer
 
 
     /**
-     *  Sets whether to use the &lt;i8> Apache extensions when
+     *  Sets whether to use the &lt;i8&gt; Apache extensions when
      *  serializing longs.
      *
      *  @param useApacheExtension Flag for specifying the Apache extension to be used.
      */
-
     public void setUseApacheExtension( boolean useApacheExtension )
     {
         this.useApacheExtension = useApacheExtension;
@@ -59,7 +56,6 @@ public class LongPrimitiveSerializer implements XmlRpcCustomSerializer
     /*  (Documentation inherited)
      *  @see redstone.xmlrpc.XmlRpcCustomSerializer#serialize(java.lang.Object, java.io.Writer, redstone.xmlrpc.XmlRpcSerializer)
      */
-    
     public void serialize(
         Object value,
         Writer writer,
@@ -83,6 +79,6 @@ public class LongPrimitiveSerializer implements XmlRpcCustomSerializer
     }
     
     
-    /** Flag indicating whether the Apache &lt;i8> extension should be used. */
+    /** Flag indicating whether the Apache &lt;i8&gt; extension should be used. */
     private boolean useApacheExtension;
 }

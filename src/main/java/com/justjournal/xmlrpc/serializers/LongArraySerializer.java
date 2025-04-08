@@ -25,7 +25,7 @@ import com.justjournal.xmlrpc.XmlRpcSerializer;
 /**
  *  Serializes arrays of primitive longs. Note that unless
  *  setUseApacheExtension( true ) has been invoked, the longs are demoted to
- *  integers before being serialized into regular XML-RPC &lt;i4>'s, possibly
+ *  integers before being serialized into regular XML-RPC &lt;i4&gt;'s, possibly
  *  losing significant bits in the conversion.
  * 
  *  @author Greger Olsson
@@ -44,7 +44,7 @@ public class LongArraySerializer implements XmlRpcCustomSerializer
 
     
     /**
-     *  Sets whether to use the &lt;i8> Apache extensions when
+     *  Sets whether to use the &lt;i8&gt; Apache extensions when
      *  serializing longs.
      *
      *  @param useApacheExtension Flag for specifying the Apache extension to be used.
@@ -86,6 +86,6 @@ public class LongArraySerializer implements XmlRpcCustomSerializer
     }
     
     
-    /** Flag indicating whether the Apache &lt;i8> extension should be used. */
+    /** Flag indicating whether the Apache &lt;i8&gt; extension should be used. */
     private boolean useApacheExtension;
 }
