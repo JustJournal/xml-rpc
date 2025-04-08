@@ -34,7 +34,7 @@ pipeline {
                     [threshold: 60.0, metric: 'LINE', baseline: 'PROJECT', unstable: true],
                     [threshold: 60.0, metric: 'BRANCH', baseline: 'PROJECT', unstable: true]
                 ],
-                  pattern: '**/build/reports/jacoco/test/jacocoTestReport.xml'
+                  path: '**/build/reports/jacoco/test/jacocoTestReport.xml'
                 )
             }
        }
