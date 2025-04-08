@@ -25,7 +25,7 @@ pipeline {
        stage('Coverage') {
             steps {
                 recordCoverage(
-                tools: [[parser: 'JACOCO']],
+                tools: [[parser: 'JACOCO', pattern: '**/build/reports/jacoco/test/jacocoTestReport.xml']],
                 id: 'jacoco',
                 name: 'JaCoCo Coverage',
                 sourceCodeRetention: 'EVERY_BUILD',
