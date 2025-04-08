@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'io.freefair.lombok' version '6.6.3'
     id 'jacoco'
+    id "org.sonarqube" version "3.5.0.2730"
 }
 
 group = 'com.justjournal'
@@ -136,5 +137,13 @@ jacocoTestReport {
      getExecutionData().from(fileTree(project.projectDir).include("/jacoco/*.exec"))
     reports {
         xml.required = true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "JustJournal_xml-rpc"
+        property "sonar.organization", "justjournal"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }

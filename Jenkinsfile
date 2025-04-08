@@ -41,7 +41,12 @@ pipeline {
        stage('Sonarqube') {
             steps {
                 withSonarQubeEnv('sonarcloud') {
-                    sh 'mvn sonar:sonar -Dsonar.organization=justjournal -Dsonar.projectKey=JustJournal_xml-rpc -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml'
+                                sh '''
+                                    ./gradlew sonarqube \
+                                        -Dsonar.organization=justjournal \
+                                        -Dsonar.projectKey=JustJournal_xml-rpc \
+                                        -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+                                '''
                 }
                 timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
