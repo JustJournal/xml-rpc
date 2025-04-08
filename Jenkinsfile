@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh './gradlew test jacocoTestReport'
             }
+            junit '**/build/test-results/junit/*.xml'
         }
        stage('Coverage') {
             steps {
