@@ -123,6 +123,7 @@ test {
 }
 
 jacocoTestReport {
+     getExecutionData().from(fileTree(project.projectDir).include("/jacoco/*.exec"))
     reports {
         xml.required = true
     }
