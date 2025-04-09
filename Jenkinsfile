@@ -41,6 +41,7 @@ pipeline {
        stage('Sonarqube') {
             steps {
                 withSonarQubeEnv('sonarcloud') {
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
                                 sh '''
                                     ./gradlew sonar \
                                         -Dsonar.scanner.skipJreProvisioning=true \
@@ -49,6 +50,7 @@ pipeline {
                                         -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
                                         -Dsonar.token=$SONAR_TOKEN
                                 '''
+                    }
                 }
                 timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
