@@ -43,10 +43,11 @@ pipeline {
                 withSonarQubeEnv('sonarcloud') {
                                 sh '''
                                     ./gradlew sonar \
+                                        -Dsonar.scanner.skipJreProvisioning=true \
                                         -Dsonar.organization=justjournal \
                                         -Dsonar.projectKey=JustJournal_xml-rpc \
                                         -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
-                                        -Dsonar.scanner.skipJreProvisioning=true
+                                        -Dsonar.token=$SONAR_TOKEN
                                 '''
                 }
                 timeout(time: 10, unit: 'MINUTES') {
