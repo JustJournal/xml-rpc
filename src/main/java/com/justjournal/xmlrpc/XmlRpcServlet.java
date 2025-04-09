@@ -40,7 +40,7 @@ public class XmlRpcServlet extends HttpServlet
      * @return the XmlRpcServer containing the handlers and processors.
      */
     @Getter
-    private transient XmlRpcServer server;
+    private transient XmlRpcServer xmlRpcServer;
 
     /** Indicates whether response messages should be streamed.
      * @return true if response messages should be streamed, false otherwise.
@@ -83,12 +83,12 @@ public class XmlRpcServlet extends HttpServlet
         if ( contentTypeConfig != null && contentTypeConfig.startsWith( "text/javascript+json" ) )
         {
             this.contentType = "text/javascript+json";
-            server = new XmlRpcServer( new XmlRpcJsonSerializer() );
+            xmlRpcServer = new XmlRpcServer( new XmlRpcJsonSerializer() );
         }
         else
         {
             this.contentType = "text/xml";
-            server = new XmlRpcServer();
+            xmlRpcServer = new XmlRpcServer();
         }
         
         this.contentType += "; charset=" + XmlRpcMessageBundle.getString( "XmlRpcServlet.Encoding" );
@@ -125,13 +125,13 @@ public class XmlRpcServlet extends HttpServlet
 
         if ( streamMessages )
         {
-            server.execute( req.getInputStream(), res.getWriter() );
+            xmlRpcServer.execute( req.getInputStream(), res.getWriter() );
             res.getWriter().flush();
         }
         else
         {
             Writer responseWriter = new StringWriter( 2048 );
-            server.execute( req.getInputStream(), responseWriter );
+            xmlRpcServer.execute( req.getInputStream(), responseWriter );
             String response = responseWriter.toString(); // TODO EXPENSIVE!!
             res.setContentLength( response.length() );
 
@@ -180,7 +180,7 @@ public class XmlRpcServlet extends HttpServlet
                 {
                     Class serviceClass = Class.forName( className );
                     Object invocationHandler = serviceClass.getDeclaredConstructor().newInstance();
-                    server.addInvocationHandler( serviceName, invocationHandler );
+                    xmlRpcServer.addInvocationHandler( serviceName, invocationHandler );
                 }
                 catch ( ClassNotFoundException e )
                 {
