@@ -45,7 +45,8 @@ pipeline {
                                     ./gradlew sonar \
                                         -Dsonar.organization=justjournal \
                                         -Dsonar.projectKey=JustJournal_xml-rpc \
-                                        -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+                                        -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml \
+                                        -Dsonar.scanner.skipJreProvisioning=true
                                 '''
                 }
                 timeout(time: 10, unit: 'MINUTES') {
